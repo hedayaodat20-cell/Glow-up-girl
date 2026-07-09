@@ -1,1 +1,1169 @@
-# Glow-up-girl
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لكل انثى | Glow Up 365</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Cairo & Tajawal & Serif playfair) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #F8F0F6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cairo', sans-serif;
+        }
+        .serif-quote {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar for beautiful inner panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1E4EE;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E8C1DC;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D8A5C9;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen pb-12">
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="max-w-6xl mx-auto my-6 bg-white rounded-3xl shadow-xl overflow-hidden border border-pink-100/60">
+        
+        <!-- Header Cover Design (Glowing Skin, Glowing Mind, Glowing Life) -->
+        <div class="h-56 bg-[#FCECF5] relative flex flex-col justify-center items-center select-none border-b border-pink-100">
+            <!-- Aesthetic Abstract background circles -->
+            <div class="absolute w-32 h-32 bg-white/40 rounded-full blur-2xl top-4 right-10"></div>
+            <div class="absolute w-44 h-44 bg-[#F5DBEA]/60 rounded-full blur-3xl bottom-2 left-6"></div>
+            
+            <!-- Elegant Quote Typo -->
+            <div class="text-center relative z-10 px-4">
+                <h3 class="serif-quote text-2xl md:text-3xl lg:text-4xl text-[#C97FA2] font-semibold tracking-wide italic leading-snug">
+                    Glowing skin,
+                </h3>
+                <h3 class="serif-quote text-2xl md:text-3xl lg:text-4xl text-[#C97FA2] font-semibold tracking-wide italic leading-snug">
+                    Glowing mind
+                </h3>
+                <h2 class="serif-quote text-3xl md:text-4xl lg:text-5xl text-[#B35F85] font-bold tracking-widest italic mt-1 leading-snug">
+                    Glowing life.
+                </h2>
+            </div>
+        </div>
+
+        <!-- App Meta / Title Info -->
+        <div class="px-6 md:px-12 relative -mt-12 pb-6 border-b border-pink-50 bg-gradient-to-b from-white/90 to-white">
+            
+            <!-- Custom Brand Logo -->
+            <div class="w-28 h-20 bg-[#FCECF5] rounded-2xl shadow-md flex flex-col items-center justify-center border-4 border-white mb-3 relative z-10 select-none overflow-hidden">
+                <span class="text-[#E07AA1] text-xs leading-none"><i class="fa-solid fa-sparkles"></i></span>
+                <span class="serif-quote text-[#B35F85] text-lg font-bold tracking-tight mt-0.5">Glow Up</span>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2">
+                        Glow up 365 ✨ <span class="text-xs bg-pink-100 text-pink-700 px-3 py-1 rounded-full font-normal">المساحة الخاصة بالأنثى </span>
+                    </h1>
+                    <p class="text-slate-500 mt-1 text-xs md:text-sm">دليلكِ اليومي لحفظ روتين عنايك، صلواتك، التدوين اليومي، ومراقبة التطور  طوال العام.</p>
+                </div>
+                
+                <!-- Dynamic Interactive Date Selector -->
+                <div class="flex flex-col gap-1 bg-pink-50/50 border border-pink-100 p-2.5 rounded-2xl text-xs font-semibold">
+                    <span class="text-[10px] text-pink-700 font-bold mb-1"><i class="fa-solid fa-calendar-days"></i> تاريخ بداية الانطلاق:</span>
+                    <input type="date" id="active-date-picker" onchange="changeActiveDate(this.value)" class="bg-white border border-pink-200 text-slate-700 rounded-lg p-1 px-2 focus:outline-none focus:ring-1 focus:ring-pink-300 font-mono font-bold">
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex gap-3 mt-6 overflow-x-auto pb-1">
+                <button onclick="switchTab('today')" id="tab-today" class="tab-btn px-4 py-2 rounded-xl bg-pink-100 text-pink-700 font-bold border border-pink-200 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-calendar-day"></i> عرض اليوم (المهام اليومية)
+                </button>
+                <button onclick="switchTab('weekly')" id="tab-weekly" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-chart-line"></i> لوحة التقدم الأسبوعي
+                </button>
+                <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-box-archive"></i> ارشيفك  الخاص
+                </button>
+            </div>
+        </div>
+
+        <!-- APP CONTENT AREA -->
+        <div class="p-4 md:p-8">
+
+            <!-- ================= VIEW 1: TODAY'S VIEW ================= -->
+            <div id="view-today" class="tab-content block">
+                
+                <!-- Progress Header -->
+                <div class="bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 p-5 rounded-2xl border border-pink-100/60 mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-pink-600"></i> مؤشر الـ Glow Up لليوم
+                            </h3>
+                            <p class="text-xs text-slate-500">
+                                يتغير الشريط بناءً على اهتمامك بصلواتك، العناية الـ 14 خطوة، والوعي المالي بالأسفل. 
+                                <span class="text-pink-700 font-medium block sm:inline sm:mr-2">(أنجزتِ <strong id="completed-counter" class="text-pink-600">0</strong> من أصل 14 خطوة جمالية)</span>
+                            </p>
+                        </div>
+                        <div class="text-xs bg-white py-1.5 px-3 rounded-full border border-pink-100 shadow-sm text-slate-700">
+                            النسبة المنجزة: <strong id="progress-percent" class="text-pink-600 font-bold">0%</strong>
+                        </div>
+                    </div>
+                    <!-- Bar Track -->
+                    <div class="w-full bg-slate-200/50 h-3.5 rounded-full overflow-hidden p-0.5">
+                        <div id="progress-bar" class="bg-gradient-to-r from-pink-400 via-rose-400 to-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <!-- Dynamic Motivation Box -->
+                    <div class="mt-3 bg-white/90 p-2.5 rounded-xl border border-white/60 text-xs md:text-sm font-medium text-slate-700 flex items-center gap-2 shadow-sm">
+                        <span id="formula-message">🌸 جسدكِ يستحق لحظة حب ورعاية، ابدئي بخطوة بسيطة الآن 🤍</span>
+                    </div>
+                </div>
+
+                <!-- Three Corners Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- COLUMN 1: Spiritual & Water & Adhkar (Left) -->
+                    <div class="space-y-6">
+                        <!-- Spiritual Panel -->
+                        <div class="bg-white p-5 rounded-2xl border border-pink-100/40 shadow-sm hover:shadow-md transition-all">
+                            <h4 class="font-bold text-slate-800 mb-4 border-b border-pink-50 pb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-mosque text-indigo-500"></i> ركن الروح والسكينة</span>
+                                <span id="prayers-status" class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">0/5 صلوات</span>
+                            </h4>
+                            <div class="grid grid-cols-5 gap-2.5 mb-4">
+                                <label class="flex flex-col items-center justify-center p-2 bg-slate-50 hover:bg-pink-50/50 rounded-xl cursor-pointer border border-transparent transition-all">
+                                    <input type="checkbox" id="p-1" class="prayer-check w-4 h-4 accent-pink-600" onchange="saveTodayData()">
+                                    <span class="text-[10px] font-semibold mt-1">الفجر</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-2 bg-slate-50 hover:bg-pink-50/50 rounded-xl cursor-pointer border border-transparent transition-all">
+                                    <input type="checkbox" id="p-2" class="prayer-check w-4 h-4 accent-pink-600" onchange="saveTodayData()">
+                                    <span class="text-[10px] font-semibold mt-1">الظهر</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-2 bg-slate-50 hover:bg-pink-50/50 rounded-xl cursor-pointer border border-transparent transition-all">
+                                    <input type="checkbox" id="p-3" class="prayer-check w-4 h-4 accent-pink-600" onchange="saveTodayData()">
+                                    <span class="text-[10px] font-semibold mt-1">العصر</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-2 bg-slate-50 hover:bg-pink-50/50 rounded-xl cursor-pointer border border-transparent transition-all">
+                                    <input type="checkbox" id="p-4" class="prayer-check w-4 h-4 accent-pink-600" onchange="saveTodayData()">
+                                    <span class="text-[10px] font-semibold mt-1">المغرب</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-2 bg-slate-50 hover:bg-pink-50/50 rounded-xl cursor-pointer border border-transparent transition-all">
+                                    <input type="checkbox" id="p-5" class="prayer-check w-4 h-4 accent-pink-600" onchange="saveTodayData()">
+                                    <span class="text-[10px] font-semibold mt-1">العشاء</span>
+                                </label>
+                            </div>
+
+                            <!-- Adhkar Interactive Trigger Buttons -->
+                            <div class="mb-4 bg-purple-50/50 border border-purple-100 rounded-xl p-3">
+                                <span class="block text-xs font-bold text-purple-800 mb-2"><i class="fa-solid fa-book-open"></i> ورد الأذكار والتحصين اليومي:</span>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <button onclick="openAdhkarPopup('morning')" class="py-2 px-3 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 rounded-lg flex items-center justify-center gap-1.5 transition-all font-semibold">
+                                        ☀️ أذكار الصباح
+                                    </button>
+                                    <button onclick="openAdhkarPopup('evening')" class="py-2 px-3 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-900 rounded-lg flex items-center justify-center gap-1.5 transition-all font-semibold">
+                                        🌙 أذكار المساء
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Quranic Werd Interactive Multi-list -->
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-slate-700"><i class="fa-solid fa-book-quran text-indigo-500"></i> الورد القرآني والتدبر لليوم:</label>
+                                <div class="flex gap-1.5">
+                                    <input type="text" id="quran-input" placeholder="مثال: سورة الكهف كاملة 📖" class="flex-1 text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-300">
+                                    <button onclick="addQuranWerd()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition-all"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div id="quran-list" class="space-y-1.5 max-h-[100px] overflow-y-auto pr-1">
+                                    <!-- Dynamic Quran entries populate here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Water Tracker Panel -->
+                        <div class="bg-white p-5 rounded-2xl border border-pink-100/40 shadow-sm hover:shadow-md transition-all">
+                            <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-droplet text-sky-500"></i> تتبع شرب الماء
+                            </h4>
+                            <p class="text-[10px] text-slate-400 mb-3">اضغطي الكؤوس لتسجيل شربكِ للماء اليومي (الهدف: 8 كؤوس).</p>
+                            <div class="flex gap-2 justify-between bg-sky-50/40 p-2.5 rounded-xl border border-sky-100/60">
+                                <button onclick="setWater(1)" id="cup-1" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(2)" id="cup-2" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(3)" id="cup-3" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(4)" id="cup-4" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(5)" id="cup-5" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(6)" id="cup-6" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(7)" id="cup-7" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(8)" id="cup-8" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMN 2: The 14 Steps Beauty Routine (Middle) -->
+                    <div class="bg-white p-5 rounded-2xl border border-pink-100/40 shadow-sm hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between border-b border-pink-50 pb-3 mb-4">
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-heart text-pink-500"></i> روتين العناية الـ 14 خطوة
+                            </h4>
+                            <span id="beauty-status" class="text-[10px] bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full font-bold">0 / 14</span>
+                        </div>
+
+                        <div class="space-y-4 max-h-[440px] overflow-y-auto pr-1">
+                            <!-- Skin Care Sub-Section -->
+                            <div>
+                                <h5 class="text-xs font-bold text-pink-700 bg-pink-50/60 p-1.5 rounded mb-2"><i class="fa-solid fa-sparkles"></i> البشرة (6 خطوات)</h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-1" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>غسول للبشرة</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-2" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>سيروم للبشرة</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-3" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>تونر للبشرة</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-4" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>مرطب للبشرة</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-5" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>واقي شمس</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-pink-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="s-6" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>مساج للبشرة</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Hair Care Sub-Section -->
+                            <div>
+                                <h5 class="text-xs font-bold text-purple-700 bg-purple-50/60 p-1.5 rounded mb-2"><i class="fa-solid fa-scissors"></i> الشعر (3 خطوات)</h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-purple-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="h-1" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>تريتمنت سيروم</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-purple-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="h-2" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>تونيك للشعر</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-purple-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="h-3" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>مساج لفروة الرأس</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Body Care Sub-Section -->
+                            <div>
+                                <h5 class="text-xs font-bold text-rose-700 bg-rose-50/60 p-1.5 rounded mb-2"><i class="fa-solid fa-pump-soap"></i> الجسد (5 خطوات)</h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-rose-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="b-1" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>زيت للجسم</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-rose-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="b-2" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>زبدة للجسم</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-rose-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="b-3" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>مساج للجسم</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-rose-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="b-4" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>سكراب للجسم</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-1.5 hover:bg-rose-50/30 rounded-lg cursor-pointer">
+                                        <input type="checkbox" id="b-5" class="glow-routine-check w-4 h-4 accent-pink-600 rounded" onchange="saveTodayData()">
+                                        <span>تنظيف عميق</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMN 3: Money, Abundance & Journaling (Right) -->
+                    <div class="space-y-6">
+                        
+                        <!-- Money & Abundance Sub-section -->
+                        <div class="bg-white p-5 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition-all bg-gradient-to-br from-white to-amber-50/10">
+                            <h4 class="font-bold text-slate-800 mb-3 border-b border-amber-100 pb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-sack-dollar text-amber-500"></i> الركن  المالي 💰</span>
+                                <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">المحفظة الذكية</span>
+                            </h4>
+                            
+                            <!-- Wallet Balancing Outputs -->
+                            <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                                <div class="bg-emerald-50 border border-emerald-100 p-2 rounded-xl">
+                                    <span class="text-[9px] text-emerald-800 font-bold block"> مبلغ اليوم</span>
+                                    <input type="number" id="wallet-available" oninput="calculateFinancials()" placeholder="0" class="w-full text-center text-xs font-bold bg-transparent border-none focus:outline-none p-0 text-emerald-700">
+                                </div>
+                                <div class="bg-rose-50 border border-rose-100 p-2 rounded-xl">
+                                    <span class="text-[9px] text-rose-800 font-bold block">صرفت اليوم</span>
+                                    <div id="wallet-spent-display" class="text-xs font-bold text-rose-700 p-0.5">0 د.أ</div>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-100 p-2 rounded-xl">
+                                    <span class="text-[9px] text-amber-800 font-bold block">بقي معي</span>
+                                    <div id="wallet-remaining-display" class="text-xs font-bold text-amber-700 p-0.5">0 د.أ</div>
+                                </div>
+                            </div>
+
+                            <!-- Shopping List Inputs -->
+                            <div class="mb-3">
+                                <span class="block text-xs font-bold text-slate-600 mb-1.5"><i class="fa-solid fa-cart-shopping text-pink-500"></i> قائمة مشتريات اليوم:</span>
+                                <div class="flex gap-1.5">
+                                    <input type="text" id="shop-item-name" placeholder="الغرض (مثال: سيروم)" class="flex-1 text-[10px] p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-300">
+                                    <input type="number" id="shop-item-price" placeholder="السعر" class="w-16 text-[10px] p-2 bg-slate-50 border border-slate-200 rounded-lg text-center focus:outline-none focus:ring-1 focus:ring-pink-300">
+                                    <button onclick="addShoppingItem()" class="bg-[#9E6899] hover:bg-[#855380] text-white font-bold w-9 h-9 flex items-center justify-center rounded-xl shadow transition-all"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Shopping List Dynamic Table -->
+                            <div class="max-h-[110px] overflow-y-auto border border-amber-50 rounded-xl bg-white/70">
+                                <table class="w-full text-right text-[10px] border-collapse">
+                                    <thead>
+                                        <tr class="bg-amber-100/50 text-amber-800 border-b border-amber-100">
+                                            <th class="p-1 px-2">الغرض</th>
+                                            <th class="p-1 text-center">السعر</th>
+                                            <th class="p-1 text-left px-2">إجراء</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="shopping-tbody" class="divide-y divide-slate-100">
+                                        <!-- Purchases injected dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Productivity & Journaling Panel -->
+                        <div class="bg-white p-5 rounded-2xl border border-pink-100/40 shadow-sm hover:shadow-md transition-all">
+                            <h4 class="font-bold text-slate-800 mb-4 border-b border-pink-50 pb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-pen-fancy text-emerald-500"></i> مساحتك الخاصة للتدوين وكتابة المهام
+                            </h4>
+                            
+                            <div class="space-y-4">
+                                <!-- Top Priority Interactive Multi-list -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">مهام اخرى لليوم  (To do list ):</label>
+                                    <div class="flex gap-1.5 mb-2">
+                                        <input type="text" id="top-priority-input" placeholder="مثال:ترتيب الغرفة ..." class="flex-1 text-xs p-2.5 bg-pink-50/30 border border-pink-100 font-medium rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-300">
+                                        <button onclick="addTopPriorityItem()" class="bg-pink-600 hover:bg-pink-700 text-white font-bold w-9 h-9 flex items-center justify-center rounded-xl transition-all"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                    <div id="priority-list" class="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
+                                        <!-- Dynamic Priorities list here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col">
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">مساحة مشاعري وتفريغ الأفكار اليومية:</label>
+                                    <textarea id="journal-text" oninput="saveTodayData()" placeholder="اكتبي ما تشعرين به الآن.. تخلصي من أي توتر، أو صفي نجاح اليوم..." class="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-300 min-h-[120px] resize-none" style="line-height: 1.6;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Save Action Banner -->
+                <div class="mt-8 pt-4 border-t border-pink-100/50 flex flex-col items-center justify-center text-center">
+                    <p class="text-xs text-slate-400 mb-3 max-w-md">بمجرد الانتهاء من روتينك الجمالي والروحي والمالي، اضغطي الزر بالأسفل لحفظ مذكرات ومهام اليوم!</p>
+                    <button onclick="saveTodayCompleteAction()" class="bg-gradient-to-r from-pink-500 via-[#B070A6] to-purple-600 text-white font-bold py-3.5 px-10 rounded-2xl shadow-xl hover:shadow-pink-400/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2.5 text-sm md:text-base border border-pink-300/30">
+                        <i class="fa-solid fa-check-double text-white"></i>
+                        <span>حفظ وإتمام مهام هذا اليوم بنجاح </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= VIEW 2: WEEKLY VIEW ================= -->
+            <div id="view-weekly" class="tab-content hidden animate-fade-in">
+                <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-bar text-pink-600"></i> مراجعة التقدم الأسبوعي للأيام السبعة الماضية
+                    </h3>
+                    <p class="text-slate-400 text-xs mb-5">مستويات التزامك الروحي والمالي والجمالي بناءً على السبعة أيام السابقة للتاريخ المحدد حالياً.</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse">
+                            <thead>
+                                <tr class="bg-pink-50/50 text-pink-700 text-xs font-bold border-b border-pink-100">
+                                    <th class="p-3.5 rounded-r-xl text-right">التاريخ</th>
+                                    <th class="p-3.5">الصلوات المنجزة</th>
+                                    <th class="p-3.5">خطوات العناية والروتين</th>
+                                    <th class="p-3.5">شرب الماء</th>
+                                    <th class="p-3.5 text-center">الوفرة (مشتريات اليوم)</th>
+                                    <th class="p-3.5 rounded-l-xl text-left">مؤشر الإنجاز الكلي</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weekly-table-body" class="text-xs text-slate-700">
+                                <!-- Generated Dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= VIEW 3: ARCHIVE GALLERY ================= -->
+            <div id="view-archive" class="tab-content hidden animate-fade-in">
+                <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-box-open text-purple-600"></i> كل انجازاتك السابقة محفوظة هنا
+                    </h3>
+                    <p class="text-slate-400 text-xs mb-6">كل مذكراتك المالية والجمالية للأيام السابقة التي قمتِ بتألقها تظهر هنا بجمالية وتكامل ومؤرشفة تلقائياً.</p>
+
+                    <!-- Gallery Cards Grid -->
+                    <div id="archive-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                        <!-- Generated Dynamically by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= ADHKAR INTERACTIVE MODAL POPUP ================= -->
+    <div id="adhkar-popup" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-pink-100 text-right relative animate-in fade-in zoom-in duration-300">
+            <button onclick="closeAdhkarPopup()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-xl transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="adhkar-popup-title" class="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">☀️ أذكار اليوم والتحصين</h3>
+            
+            <!-- Adhkar Container Area -->
+            <div id="adhkar-content-area" class="space-y-4 max-h-[360px] overflow-y-auto pl-2 mb-4">
+                <!-- Zikr list populated by JS -->
+            </div>
+            
+            <div class="text-left">
+                <button onclick="closeAdhkarPopup()" class="bg-purple-900 hover:bg-purple-950 text-white text-xs font-bold py-2 px-4 rounded-xl shadow transition-all">
+                    إغلاق وورد السكينة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BEAUTIFUL CUSTOM MODAL FOR CELEBRATIONS ================= -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-pink-100 animate-fade-in flex flex-col max-h-[85vh]">
+            <div id="modal-header" class="p-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold flex justify-between items-center shrink-0">
+                <span id="modal-title">العنوان</span>
+                <button onclick="closeModal()" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-body" class="p-6 text-xs md:text-sm text-slate-700 overflow-y-auto space-y-4 leading-relaxed font-medium">
+                <!-- Content injected dynamically -->
+            </div>
+            <div class="p-3 bg-slate-50 border-t border-slate-100 flex justify-end shrink-0">
+                <button onclick="closeModal()" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition-all">إغلاق النافذة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION Overlays -->
+    <div id="notif-toast" class="fixed bottom-5 left-5 bg-purple-900 text-white text-xs font-semibold px-6 py-3.5 rounded-2xl shadow-2xl border border-purple-800 z-50 flex items-center gap-2.5 transform translate-y-24 opacity-0 transition-all duration-300 hidden">
+        <i class="fa-solid fa-circle-check text-pink-500 text-base animate-bounce"></i>
+        <span id="notif-text">تم تحديث وحفظ مذكرات اليوم بنجاح!</span>
+    </div>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        
+        // Use browser's real current date by default in YYYY-MM-DD
+        let todayDateStr = new Date().toLocaleDateString('en-CA');
+        let activeDate = localStorage.getItem('glowup_active_date') || todayDateStr;
+
+        // Clean initial state (starts empty so the archive is populated entirely from use)
+        let appState = JSON.parse(localStorage.getItem('glowup_app_db')) || {
+            days: {} 
+        };
+
+        // Static Adhkar database for Morning and Evening
+        const adhkarDB = {
+            morning: [
+                { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ.", count: 1 },
+                { text: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ (آية الكرسي - تحصين من الشياطين حتى المساء).", count: 1 },
+                { text: "قُلْ هُوَ اللَّهُ أَحَدٌ، قُل 'أَعُوذُ بِرَبِّ الْفَلَقِ'، قُل 'أَعُوذُ بِرَبِّ النَّاسِ' (تكفي من كل شيء).", count: 3 },
+                { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ (يكفي الله ما أهمَّه).", count: 7 },
+                { text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.", count: 1 }
+            ],
+            evening: [
+                { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ.", count: 1 },
+                { text: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ (آية الكرسي - تحصين من الشياطين حتى الصباح).", count: 1 },
+                { text: "قُلْ هُوَ اللَّهُ أَحَدٌ، قُل 'أَعُوذُ بِرَبِّ الْفَلَقِ'، قُل 'أَعُوذُ بِرَبِّ النَّاسِ' (ثلاث مرات).", count: 3 },
+                { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلكَ الْمَصِيرُ.", count: 1 },
+                { text: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", count: 3 }
+            ]
+        };
+
+        // Active Adhkar state tracking
+        let activeAdhkarCounts = {};
+
+        // Web Audio API Crystal sound
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playChime(freq = 880, type = 'sine', duration = 0.3) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, activeAudioTime());
+                gain.gain.setValueAtTime(0.08, activeAudioTime());
+                gain.gain.exponentialRampToValueAtTime(0.001, activeAudioTime() + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(activeAudioTime() + duration);
+            } catch (e) {
+                console.log("Audio not supported.");
+            }
+        }
+
+        function activeAudioTime() {
+            return audioCtx.currentTime;
+        }
+
+        function playCelebrationSparkle() {
+            const freqs = [523.25, 659.25, 783.99, 1046.50];
+            freqs.forEach((f, index) => {
+                setTimeout(() => {
+                    playChime(f, 'triangle', 0.5);
+                }, index * 120);
+            });
+        }
+
+        // Beautiful visual particles effect
+        function launchCelebrationVisuals() {
+            const colors = ['#F472B6', '#EC4899', '#D946EF', '#A855F7', '#FBCFE8', '#FFF1F2'];
+            const icons = ['🌸', '✨', '💖', '👑', '🌟', '🌷'];
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'absolute select-none pointer-events-none text-2xl z-50';
+                p.style.top = '-10%';
+                p.innerText = icons[Math.floor(Math.random() * icons.length)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Add absolute animations programmatically
+                p.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 1500 + 2000,
+                    easing: 'linear',
+                    fill: 'forwards'
+                });
+
+                document.body.appendChild(p);
+                setTimeout(() => { p.remove(); }, 3500);
+            }
+        }
+
+        // Tab Swapping logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('block');
+                content.classList.add('hidden');
+            });
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+            document.getElementById('view-' + tabId).classList.add('block');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all";
+            });
+            
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.className = "tab-btn px-4 py-2 rounded-xl bg-pink-100 text-pink-700 font-bold border border-pink-200 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all";
+
+            if (tabId === 'weekly') buildWeeklyTable();
+            if (tabId === 'archive') buildArchiveGallery();
+        }
+
+        // Initialize or Load Selected Day Data
+        function loadDayData(dateString) {
+            if (!appState.days[dateString]) {
+                appState.days[dateString] = {
+                    prayers: [false, false, false, false, false],
+                    routine: Array(14).fill(false),
+                    water: 0,
+                    priority: [],
+                    journal: "",
+                    quran: [],
+                    wallet: { available: 0, spent: 0 },
+                    purchases: []
+                };
+            }
+
+            const dayData = appState.days[dateString];
+
+            // Migration handling for lists and objects
+            if (!dayData.quran) dayData.quran = [];
+            if (!dayData.priority) dayData.priority = [];
+
+            // Load Prayers Checkboxes
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('p-' + i).checked = dayData.prayers[i - 1] || false;
+            }
+
+            // Load 14 Steps Routine Checkboxes
+            const checks = document.querySelectorAll('.glow-routine-check');
+            checks.forEach((cb, index) => {
+                cb.checked = dayData.routine[index] || false;
+            });
+
+            // Load Text Inputs
+            document.getElementById('journal-text').value = dayData.journal || "";
+            document.getElementById('quran-input').value = "";
+            document.getElementById('top-priority-input').value = "";
+
+            // Load Money Inputs & Outputs
+            document.getElementById('wallet-available').value = (dayData.wallet && dayData.wallet.available) ? dayData.wallet.available : 0;
+            
+            // Sync Water UI
+            setWaterUI(dayData.water || 0);
+
+            // Rebuild elements
+            buildShoppingTable();
+            calculateFinancials();
+            buildQuranList();
+            buildPriorityList();
+            calculateProgress();
+        }
+
+        // Save Current UI values back into state and localstorage
+        function saveTodayData() {
+            const dayData = appState.days[activeDate];
+
+            // Save Prayers
+            for (let i = 1; i <= 5; i++) {
+                dayData.prayers[i - 1] = document.getElementById('p-' + i).checked;
+            }
+
+            // Save 14 Steps
+            const checks = document.querySelectorAll('.glow-routine-check');
+            checks.forEach((cb, index) => {
+                dayData.routine[index] = cb.checked;
+            });
+
+            // Save Texts & States
+            dayData.journal = document.getElementById('journal-text').value;
+
+            // Save Money
+            if (!dayData.wallet) dayData.wallet = { available: 0, spent: 0 };
+            dayData.wallet.available = parseFloat(document.getElementById('wallet-available').value) || 0;
+
+            // Save state to browser memory
+            localStorage.setItem('glowup_app_db', JSON.stringify(appState));
+
+            // Recalculate indicators
+            calculateProgress();
+        }
+
+        // Manage Water Selection
+        function setWater(cupsNum) {
+            const dayData = appState.days[activeDate];
+            dayData.water = cupsNum;
+            setWaterUI(cupsNum);
+            playChime(660, 'sine', 0.2);
+            saveTodayData();
+        }
+
+        function setWaterUI(cupsNum) {
+            for (let i = 1; i <= 8; i++) {
+                const cup = document.getElementById('cup-' + i);
+                if (i <= cupsNum) {
+                    cup.classList.remove('text-slate-300', 'grayscale', 'opacity-30');
+                    cup.classList.add('text-sky-500');
+                } else {
+                    cup.classList.remove('text-sky-500');
+                    cup.classList.add('text-slate-300', 'grayscale', 'opacity-30');
+                }
+            }
+        }
+
+        // ================= MULTI-ITEM QURANIC WERD PROCESSORS =================
+        function buildQuranList() {
+            const dayData = appState.days[activeDate];
+            const listContainer = document.getElementById('quran-list');
+            listContainer.innerHTML = "";
+
+            if (!dayData.quran || dayData.quran.length === 0) {
+                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">   لا تنسي قراءة سورة الملك عند النوم</span>`;
+                return;
+            }
+
+            dayData.quran.forEach((werd, index) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-purple-50/30 p-2 rounded-xl border border-purple-100/50 text-xs text-slate-700 animate-in fade-in duration-200";
+                div.innerHTML = `
+                    <span class="font-medium">${werd}</span>
+                    <button onclick="deleteQuranWerd(${index})" class="text-rose-500 hover:text-rose-700 transition-all px-1">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+
+        function addQuranWerd() {
+            const input = document.getElementById('quran-input');
+            const val = input.value.trim();
+            if (!val) {
+                showToast("الرجاء كتابة تفاصيل الورد القرآني أولاً 📖");
+                return;
+            }
+            const dayData = appState.days[activeDate];
+            if (!dayData.quran) dayData.quran = [];
+            dayData.quran.push(val);
+            input.value = "";
+            buildQuranList();
+            saveTodayData();
+            showToast("تمت إضافة الورد القرآني بنجاح! 🕌✨");
+        }
+
+        function deleteQuranWerd(index) {
+            const dayData = appState.days[activeDate];
+            dayData.quran.splice(index, 1);
+            buildQuranList();
+            saveTodayData();
+        }
+
+        // ================= MULTI-ITEM TOP PRIORITY PROCESSORS =================
+        function buildPriorityList() {
+            const dayData = appState.days[activeDate];
+            const listContainer = document.getElementById('priority-list');
+            listContainer.innerHTML = "";
+
+            if (!dayData.priority || dayData.priority.length === 0) {
+                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">  </span>`;
+                return;
+            }
+
+            dayData.priority.forEach((task, index) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-pink-50/20 p-2 rounded-xl border border-pink-100/40 text-xs animate-in fade-in duration-200";
+                div.innerHTML = `
+                    <label class="flex items-center gap-2 cursor-pointer flex-1">
+                        <input type="checkbox" onchange="togglePriority(${index})" ${task.done ? 'checked' : ''} class="w-3.5 h-3.5 accent-pink-600 rounded">
+                        <span class="font-semibold ${task.done ? 'line-through text-slate-400' : 'text-slate-800'}">${task.text}</span>
+                    </label>
+                    <button onclick="deletePriority(${index})" class="text-rose-500 hover:text-rose-700 transition-all px-1 ml-1">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+
+        function addTopPriorityItem() {
+            const input = document.getElementById('top-priority-input');
+            const val = input.value.trim();
+            if (!val) {
+                showToast("الرجاء كتابة المهمة الكبرى أولاً 🎯");
+                return;
+            }
+            const dayData = appState.days[activeDate];
+            if (!dayData.priority) dayData.priority = [];
+            dayData.priority.push({ text: val, done: false });
+            input.value = "";
+            buildPriorityList();
+            saveTodayData();
+            showToast("تمت إضافة المهمة الكبرى لبوصلتكِ! 🎯🌸");
+        }
+
+        function togglePriority(index) {
+            const dayData = appState.days[activeDate];
+            dayData.priority[index].done = !dayData.priority[index].done;
+            buildPriorityList();
+            saveTodayData();
+        }
+
+        function deletePriority(index) {
+            const dayData = appState.days[activeDate];
+            dayData.priority.splice(index, 1);
+            buildPriorityList();
+            saveTodayData();
+        }
+
+        // ================= CONSCIOUS FINANCIAL TRACKER =================
+        function calculateFinancials() {
+            const dayData = appState.days[activeDate];
+            if (!dayData.wallet) dayData.wallet = { available: 0, spent: 0 };
+
+            let totalSpent = 0;
+            if (dayData.purchases) {
+                dayData.purchases.forEach(item => {
+                    totalSpent += parseFloat(item.price) || 0;
+                });
+            }
+
+            dayData.wallet.spent = totalSpent;
+            dayData.wallet.available = parseFloat(document.getElementById('wallet-available').value) || 0;
+
+            let remaining = dayData.wallet.available - totalSpent;
+
+            document.getElementById('wallet-spent-display').innerText = totalSpent + " د.أ";
+            document.getElementById('wallet-remaining-display').innerText = remaining + " د.أ";
+
+            const remainingBox = document.getElementById('wallet-remaining-display').parentElement;
+            if (remaining < 0) {
+                remainingBox.className = "bg-rose-50 border border-rose-100 p-2 rounded-xl text-rose-700 animate-pulse";
+            } else {
+                remainingBox.className = "bg-emerald-50/50 border border-emerald-100 p-2 rounded-xl text-emerald-750";
+            }
+
+            localStorage.setItem('glowup_app_db', JSON.stringify(appState));
+        }
+
+        function addShoppingItem() {
+            const dayData = appState.days[activeDate];
+            if (!dayData.purchases) dayData.purchases = [];
+
+            const nameInput = document.getElementById('shop-item-name');
+            const priceInput = document.getElementById('shop-item-price');
+
+            const name = nameInput.value.trim();
+            const price = parseFloat(priceInput.value) || 0;
+
+            if (name === "" || price <= 0) {
+                showToast("الرجاء إدخال اسم الغرض وسعره بشكل صحيح 💸");
+                return;
+            }
+
+            dayData.purchases.push({ name: name, price: price });
+
+            nameInput.value = "";
+            priceInput.value = "";
+
+            buildShoppingTable();
+            calculateFinancials();
+            showToast("تم إضافة الغرض إلى الميزانية وتعديل الحسابات! 💰");
+        }
+
+        function deleteShoppingItem(index) {
+            const dayData = appState.days[activeDate];
+            if (dayData.purchases) {
+                dayData.purchases.splice(index, 1);
+                buildShoppingTable();
+                calculateFinancials();
+                showToast("تم إزالة الغرض بنجاح.");
+            }
+        }
+
+        function buildShoppingTable() {
+            const dayData = appState.days[activeDate];
+            const tbody = document.getElementById('shopping-tbody');
+            tbody.innerHTML = "";
+
+            if (!dayData.purchases || dayData.purchases.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="p-3 text-center text-[10px] text-slate-400">  </td></tr>`;
+                return;
+            }
+
+            dayData.purchases.forEach((item, index) => {
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/50";
+                tr.innerHTML = `
+                    <td class="p-1.5 px-2 font-medium text-slate-700">${item.name}</td>
+                    <td class="p-1.5 text-center font-bold text-amber-700">${item.price} د.أ</td>
+                    <td class="p-1.5 text-left px-2">
+                        <button onclick="deleteShoppingItem(${index})" class="text-rose-500 hover:text-rose-700 transition-all">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Progress computation
+        function calculateProgress() {
+            const dayData = appState.days[activeDate];
+            
+            let skinCount = 0;
+            let hairCount = 0;
+            let bodyCount = 0;
+
+            dayData.routine.forEach((val, idx) => {
+                if (val) {
+                    if (idx < 6) skinCount++;
+                    else if (idx < 9) hairCount++;
+                    else bodyCount++;
+                }
+            });
+
+            let totalCompleted = skinCount + hairCount + bodyCount;
+            let percentage = totalCompleted / 14;
+            let displayPercent = Math.round(percentage * 100);
+
+            const counterEl = document.getElementById('completed-counter');
+            if (counterEl) counterEl.innerText = totalCompleted;
+            
+            document.getElementById('progress-percent').innerText = displayPercent + "%";
+            document.getElementById('progress-bar').style.width = displayPercent + "%";
+
+            document.getElementById('beauty-status').innerText = `${totalCompleted} / 14 خطوة`;
+            
+            let checkedPrayers = dayData.prayers ? dayData.prayers.filter(Boolean).length : 0;
+            document.getElementById('prayers-status').innerText = `${checkedPrayers}/5 صلوات`;
+
+            const msgElement = document.getElementById('formula-message');
+            if (percentage === 0) {
+                msgElement.innerHTML = "🌸 جسدكِ يستحق لحظة حب ورعاية، ابدئي بخطوة بسيطة الآن 🤍";
+            } else if (percentage < 0.4) {
+                msgElement.innerHTML = "✨ بداية لطيفة.. خلاياكِ بدأت تتنفس النور وتستشعر الدلال! 🧴";
+            } else if (percentage < 0.8) {
+                msgElement.innerHTML = "🌸 تألق لافت! روتين رائع يغمر بشرتكِ وشعركِ بالصحة والتشافي 🧖‍♀️";
+            } else {
+                msgElement.innerHTML = "👑 متوهجة بالكامل! رعاية ملكية شاملة للجسد والروح والجمال اليوم 👑";
+            }
+        }
+
+        // Active Date Select Action (Date Picker change)
+        function changeActiveDate(newDateVal) {
+            if (!newDateVal) return;
+            activeDate = newDateVal;
+            localStorage.setItem('glowup_active_date', activeDate);
+            loadDayData(activeDate);
+            showToast(`تم تحميل  التاريخ: ${activeDate} 🗓️`);
+        }
+
+        // Save Current Day Celebration Dialog
+        function saveTodayCompleteAction() {
+            saveTodayData();
+            playCelebrationSparkle();
+            launchCelebrationVisuals();
+
+            const modal = document.getElementById('custom-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            title.innerText = "👑 فخورون بتألقكِ اليوم!";
+             body.innerHTML = `
+                <div class="text-center space-y-4 py-2">
+                    <p class="text-4xl animate-bounce">🌸✨👸</p>
+                    <h3 class="text-lg font-bold text-pink-700">تهانينا على إتمام مهامك بنجاح!</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        لقد تم حفظ هذا اليوم بأمان في سجل التحدي السنوي الخاص بكِ.<br> 
+                        الاستمرارية والدلال الذاتي هي سر توهجك المستمر. واصلي التقدم يا جميلة! 🤍
+                    </p>
+                    <button onclick="closeModal()" class="w-full bg-gradient-to-r from-pink-500 via-[#B070A6] to-purple-600 text-white font-bold py-3 px-4 rounded-xl shadow-md text-xs transition-all">شكراً لكِ، سأستمر! 🚀</button>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        // ================= DYNAMIC INTERACTIVE ADHKAR SYSTEM =================
+        function openAdhkarPopup(type) {
+            const popup = document.getElementById('adhkar-popup');
+            const title = document.getElementById('adhkar-popup-title');
+            const contentArea = document.getElementById('adhkar-content-area');
+
+            title.innerHTML = type === 'morning' ? '☀️ أذكار الصباح السكينة' : '🌙 أذكار المساء والتحصين';
+            contentArea.innerHTML = "";
+
+            const targetAdhkar = adhkarDB[type];
+            targetAdhkar.forEach((item, index) => {
+                const key = `${activeDate}-${type}-${index}`;
+                if (activeAdhkarCounts[key] === undefined) {
+                    activeAdhkarCounts[key] = item.count;
+                }
+
+                let remaining = activeAdhkarCounts[key];
+                let isDone = remaining === 0;
+
+                let card = document.createElement('div');
+                card.id = `zikr-box-${index}`;
+                card.className = `p-4 rounded-2xl border transition-all ${isDone ? 'bg-emerald-50/70 border-emerald-100 text-slate-500' : 'bg-pink-50/30 border-pink-100/60'}`;
+                card.innerHTML = `
+                    <p class="text-xs leading-relaxed font-semibold text-slate-800 ${isDone ? 'line-through text-slate-400' : ''}">${item.text}</p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400">التكرار المطلوب: ${item.count}</span>
+                        <button onclick="decrementZikrCounter('${type}', ${index}, ${item.count})" id="zikr-btn-${index}" ${isDone ? 'disabled' : ''} class="px-4 py-1.5 text-xs font-bold rounded-xl shadow-sm transition-all ${isDone ? 'bg-emerald-200 text-emerald-800' : 'bg-purple-900 hover:bg-purple-950 text-white'}">
+                            ${isDone ? 'تم بحمد الله ✓' : `اضغطي للعد (${remaining})`}
+                        </button>
+                    </div>
+                `;
+                contentArea.appendChild(card);
+            });
+
+            popup.classList.remove('hidden');
+        }
+
+        function decrementZikrCounter(type, index, maxCount) {
+            const key = `${activeDate}-${type}-${index}`;
+            if (activeAdhkarCounts[key] > 0) {
+                activeAdhkarCounts[key]--;
+                playChime(750, 'triangle', 0.15);
+                openAdhkarPopup(type);
+                if (activeAdhkarCounts[key] === 0) {
+                    showToast("أتممتِ قراءة الذكر! بارك الله في وردك 🌸");
+                }
+            }
+        }
+
+        function closeAdhkarPopup() {
+            document.getElementById('adhkar-popup').classList.add('hidden');
+        }
+
+        // ================= BUILD TAB 2: WEEKLY TABLE (Last 7 Days) =================
+        function buildWeeklyTable() {
+            const tbody = document.getElementById('weekly-table-body');
+            tbody.innerHTML = "";
+
+            const datesToRender = [];
+            const anchorDate = new Date(activeDate);
+
+            // Fetch exactly past 7 dates from activeDate
+            for (let i = 0; i < 7; i++) {
+                const tempDate = new Date(anchorDate);
+                tempDate.setDate(anchorDate.getDate() - i);
+                datesToRender.push(tempDate.toLocaleDateString('en-CA'));
+            }
+
+            datesToRender.forEach((dateStr, index) => {
+                // If data does not exist for this specific past day, render a blank row entry neatly
+                const day = appState.days[dateStr] || {
+                    prayers: [false, false, false, false, false],
+                    routine: Array(14).fill(false),
+                    water: 0,
+                    purchases: []
+                };
+                
+                const isCurrentActive = index === 0;
+
+                let prayers = day.prayers ? day.prayers.filter(Boolean).length : 0;
+                let steps = day.routine ? day.routine.filter(Boolean).length : 0;
+                let water = day.water || 0;
+                
+                let spent = 0;
+                if (day.purchases) {
+                    day.purchases.forEach(p => spent += p.price);
+                }
+
+                let totalScore = (prayers/5 * 0.3) + (steps/14 * 0.5) + (Math.min(water, 8)/8 * 0.2);
+                let finalPercent = Math.round(totalScore * 100);
+
+                let tr = document.createElement('tr');
+                tr.className = isCurrentActive ? 'bg-gradient-to-r from-pink-50/70 to-purple-50/70 font-semibold border-2 border-pink-200' : 'border-b border-slate-100 hover:bg-slate-50/50';
+                tr.innerHTML = `
+                    <td class="p-3.5 text-right text-slate-800 font-mono font-bold">
+                        ${dateStr} ${isCurrentActive ? ' (اليوم المحدد 👑)' : ''}
+                    </td>
+                    <td class="p-3.5 text-indigo-700 font-semibold"><i class="fa-solid fa-mosque mr-1 opacity-70"></i> ${prayers} / 5</td>
+                    <td class="p-3.5 text-pink-700 font-semibold"><i class="fa-solid fa-heart mr-1 opacity-70"></i> ${steps} / 14</td>
+                    <td class="p-3.5 text-sky-600 font-semibold">🥛 ${water} كؤوس</td>
+                    <td class="p-3.5 text-center text-amber-800 font-bold">${spent} د.أ</td>
+                    <td class="p-3.5 text-left font-bold text-emerald-600">
+                        <div class="inline-block bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">${finalPercent}%</div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ================= BUILD TAB 3: ARCHIVE GALLERY =================
+        function buildArchiveGallery() {
+            const grid = document.getElementById('archive-grid');
+            grid.innerHTML = "";
+
+            // Sort days to show newest entries first
+            const sortedDates = Object.keys(appState.days).sort((a,b) => new Date(b) - new Date(a));
+
+            // Only display days that actually have saved data (user actively wrote journal or logged progress)
+            const datesWithContent = sortedDates.filter(dateStr => {
+                const dayData = appState.days[dateStr];
+                const hasRoutine = dayData.routine && dayData.routine.some(Boolean);
+                const hasPrayers = dayData.prayers && dayData.prayers.some(Boolean);
+                return dayData && (dayData.journal || dayData.priority.length > 0 || dayData.quran.length > 0 || hasRoutine || hasPrayers);
+            });
+
+            // If empty, show a beautifully styled empty-state message
+            if (datesWithContent.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full p-12 text-center bg-slate-50 rounded-2xl border border-slate-100/60 text-slate-400 italic">
+                        <p class="text-3xl mb-2">🌸</p>
+                        الأرشيف فارغ حالياً.. مذكرات تألقكِ ومفكرتكِ اليومية ستظهر هنا تلقائياً بمجرد البدء في تعبئة أيامكِ وحفظ طقوسكِ!
+                    </div>`;
+                return;
+            }
+
+            datesWithContent.forEach(dateStr => {
+                const day = appState.days[dateStr];
+                let steps = day.routine ? day.routine.filter(Boolean).length : 0;
+                let journalExcerpt = day.journal ? (day.journal.substring(0, 70) + "...") : "لا توجد مذكرات مكتوبة بعد لليوم..";
+
+                let card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all cursor-pointer hover:-translate-y-1 text-right";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+                        <span class="font-mono font-bold text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">${dateStr}</span>
+                        <span class="text-[10px] font-bold ${steps >= 10 ? 'text-emerald-600' : 'text-pink-600'} bg-pink-50 px-2 py-0.5 rounded-full">${steps}/14 خطوة </span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed italic mb-4">"${journalExcerpt}"</p>
+                    <div class="flex gap-1.5 text-xs text-slate-400">
+                        <i class="fa-solid fa-droplet ${day.water >= 6 ? 'text-sky-400' : ''}"></i>
+                        <i class="fa-solid fa-mosque ${day.prayers && day.prayers.filter(Boolean).length >= 4 ? 'text-indigo-400' : ''}"></i>
+                        <i class="fa-solid fa-sack-dollar ${day.wallet && day.wallet.spent > 0 ? 'text-amber-400' : ''}"></i>
+                    </div>
+                `;
+                
+                card.onclick = () => {
+                    activeDate = dateStr;
+                    localStorage.setItem('glowup_active_date', activeDate);
+                    document.getElementById('active-date-picker').value = activeDate;
+                    switchTab('today');
+                    loadDayData(activeDate);
+                    showToast(`تم تحميل أرشيف يوم: ${dateStr} 📖✨`);
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        // Notification Toast Handler
+        function showToast(text) {
+            const toast = document.getElementById('notif-toast');
+            const textSpan = document.getElementById('notif-text');
+            
+            textSpan.innerText = text;
+            toast.classList.remove('translate-y-24', 'opacity-0', 'hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // CORE INITIATION ON LOAD
+        window.onload = function() {
+            document.getElementById('active-date-picker').value = activeDate;
+            loadDayData(activeDate);
+        };
+    </script>
+</body>
+</html>
