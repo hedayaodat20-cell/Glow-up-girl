@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لكل انثى | Glow Up 365</title>
+    <title>تطبيق متألقة | Glow Up 365</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts (Cairo & Tajawal & Serif playfair) -->
@@ -78,14 +78,14 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2">
-                        Glow up 365 ✨ <span class="text-xs bg-pink-100 text-pink-700 px-3 py-1 rounded-full font-normal">المساحة الخاصة بالأنثى </span>
+                        Glow up 365 ✨ <span class="text-xs bg-pink-100 text-pink-700 px-3 py-1 rounded-full font-normal">مساحة الأنثى المتألقة</span>
                     </h1>
-                    <p class="text-slate-500 mt-1 text-xs md:text-sm">دليلكِ اليومي لحفظ روتين عنايك، صلواتك، التدوين اليومي، ومراقبة التطور  طوال العام.</p>
+                    <p class="text-slate-500 mt-1 text-xs md:text-sm">دليلكِ اليومي لحفظ طقوس العناية، الصلوات، التدوين اليومي، ومراقبة التطور والتشافي المالي والروحي طوال العام.</p>
                 </div>
                 
                 <!-- Dynamic Interactive Date Selector -->
                 <div class="flex flex-col gap-1 bg-pink-50/50 border border-pink-100 p-2.5 rounded-2xl text-xs font-semibold">
-                    <span class="text-[10px] text-pink-700 font-bold mb-1"><i class="fa-solid fa-calendar-days"></i> تاريخ بداية الانطلاق:</span>
+                    <span class="text-[10px] text-pink-700 font-bold mb-1"><i class="fa-solid fa-calendar-days"></i> تاريخ تسجيل الطقوس:</span>
                     <input type="date" id="active-date-picker" onchange="changeActiveDate(this.value)" class="bg-white border border-pink-200 text-slate-700 rounded-lg p-1 px-2 focus:outline-none focus:ring-1 focus:ring-pink-300 font-mono font-bold">
                 </div>
             </div>
@@ -93,13 +93,13 @@
             <!-- Navigation Tabs -->
             <div class="flex gap-3 mt-6 overflow-x-auto pb-1">
                 <button onclick="switchTab('today')" id="tab-today" class="tab-btn px-4 py-2 rounded-xl bg-pink-100 text-pink-700 font-bold border border-pink-200 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
-                    <i class="fa-solid fa-calendar-day"></i> عرض اليوم (المهام اليومية)
+                    <i class="fa-solid fa-calendar-day"></i> عرض اليوم (الطقوس اليومية)
                 </button>
                 <button onclick="switchTab('weekly')" id="tab-weekly" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
                     <i class="fa-solid fa-chart-line"></i> لوحة التقدم الأسبوعي
                 </button>
                 <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
-                    <i class="fa-solid fa-box-archive"></i> ارشيفك  الخاص
+                    <i class="fa-solid fa-box-archive"></i> أرشيف الأيام والتدوين
                 </button>
             </div>
         </div>
@@ -310,14 +310,14 @@
                         <!-- Money & Abundance Sub-section -->
                         <div class="bg-white p-5 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition-all bg-gradient-to-br from-white to-amber-50/10">
                             <h4 class="font-bold text-slate-800 mb-3 border-b border-amber-100 pb-2 flex items-center justify-between">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-sack-dollar text-amber-500"></i> الركن  المالي 💰</span>
-                                <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">المحفظة الذكية</span>
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-sack-dollar text-amber-500"></i> ركن الوفرة والسلام المالي 💰</span>
+                                <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">المحاسبة الواعية</span>
                             </h4>
                             
                             <!-- Wallet Balancing Outputs -->
                             <div class="grid grid-cols-3 gap-2 mb-4 text-center">
                                 <div class="bg-emerald-50 border border-emerald-100 p-2 rounded-xl">
-                                    <span class="text-[9px] text-emerald-800 font-bold block"> مبلغ اليوم</span>
+                                    <span class="text-[9px] text-emerald-800 font-bold block">معي مصاري</span>
                                     <input type="number" id="wallet-available" oninput="calculateFinancials()" placeholder="0" class="w-full text-center text-xs font-bold bg-transparent border-none focus:outline-none p-0 text-emerald-700">
                                 </div>
                                 <div class="bg-rose-50 border border-rose-100 p-2 rounded-xl">
@@ -360,15 +360,15 @@
                         <!-- Productivity & Journaling Panel -->
                         <div class="bg-white p-5 rounded-2xl border border-pink-100/40 shadow-sm hover:shadow-md transition-all">
                             <h4 class="font-bold text-slate-800 mb-4 border-b border-pink-50 pb-2 flex items-center gap-2">
-                                <i class="fa-solid fa-pen-fancy text-emerald-500"></i> مساحتك الخاصة للتدوين وكتابة المهام
+                                <i class="fa-solid fa-pen-fancy text-emerald-500"></i> التدوين والتفريغ النفسي
                             </h4>
                             
                             <div class="space-y-4">
                                 <!-- Top Priority Interactive Multi-list -->
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-600 mb-1">مهام اخرى لليوم  (To do list ):</label>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">مهام اليوم الكبرى (Top Priority):</label>
                                     <div class="flex gap-1.5 mb-2">
-                                        <input type="text" id="top-priority-input" placeholder="مثال:ترتيب الغرفة ..." class="flex-1 text-xs p-2.5 bg-pink-50/30 border border-pink-100 font-medium rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-300">
+                                        <input type="text" id="top-priority-input" placeholder="أضيفي مهمة اليوم الكبرى..." class="flex-1 text-xs p-2.5 bg-pink-50/30 border border-pink-100 font-medium rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-300">
                                         <button onclick="addTopPriorityItem()" class="bg-pink-600 hover:bg-pink-700 text-white font-bold w-9 h-9 flex items-center justify-center rounded-xl transition-all"><i class="fa-solid fa-plus"></i></button>
                                     </div>
                                     <div id="priority-list" class="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
@@ -389,10 +389,10 @@
 
                 <!-- Save Action Banner -->
                 <div class="mt-8 pt-4 border-t border-pink-100/50 flex flex-col items-center justify-center text-center">
-                    <p class="text-xs text-slate-400 mb-3 max-w-md">بمجرد الانتهاء من روتينك الجمالي والروحي والمالي، اضغطي الزر بالأسفل لحفظ مذكرات ومهام اليوم!</p>
+                    <p class="text-xs text-slate-400 mb-3 max-w-md">بمجرد الانتهاء من روتينك الجمالي والروحي والمالي، اضغطي الزر بالأسفل لحفظ مذكرات وطقوس اليوم!</p>
                     <button onclick="saveTodayCompleteAction()" class="bg-gradient-to-r from-pink-500 via-[#B070A6] to-purple-600 text-white font-bold py-3.5 px-10 rounded-2xl shadow-xl hover:shadow-pink-400/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2.5 text-sm md:text-base border border-pink-300/30">
                         <i class="fa-solid fa-check-double text-white"></i>
-                        <span>حفظ وإتمام مهام هذا اليوم بنجاح </span>
+                        <span>حفظ وإتمام طقوس هذا اليوم بنجاح 💖✨</span>
                     </button>
                 </div>
             </div>
@@ -429,9 +429,9 @@
             <div id="view-archive" class="tab-content hidden animate-fade-in">
                 <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                     <h3 class="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
-                        <i class="fa-solid fa-box-open text-purple-600"></i> كل انجازاتك السابقة محفوظة هنا
+                        <i class="fa-solid fa-box-open text-purple-600"></i> ألبوم الأيام وتفريغ المشاعر السنوي
                     </h3>
-                    <p class="text-slate-400 text-xs mb-6">كل مذكراتك المالية والجمالية للأيام السابقة التي قمتِ بتألقها تظهر هنا بجمالية وتكامل ومؤرشفة تلقائياً.</p>
+                    <p class="text-slate-400 text-xs mb-6">كل مذكراتك وطقوسك المالية والجمالية للأيام السابقة التي قمتِ بتألقها تظهر هنا بجمالية وتكامل ومؤرشفة تلقائياً.</p>
 
                     <!-- Gallery Cards Grid -->
                     <div id="archive-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
@@ -441,6 +441,12 @@
             </div>
 
         </div>
+
+        <!-- ================= ELEGANT COPYRIGHT & DESIGN FOOTER ================= -->
+        <footer class="bg-gradient-to-b from-white to-[#FDF6FB] border-t border-pink-50 text-center py-6 text-xs text-slate-400 font-medium tracking-wide">
+            <p>© 2026  جميع الحقوق محفوظة |Designed by   <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">hedaya odat</span> </p>
+        </footer>
+
     </div>
 
     <!-- ================= ADHKAR INTERACTIVE MODAL POPUP ================= -->
@@ -511,7 +517,7 @@
                 { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ.", count: 1 },
                 { text: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ (آية الكرسي - تحصين من الشياطين حتى الصباح).", count: 1 },
                 { text: "قُلْ هُوَ اللَّهُ أَحَدٌ، قُل 'أَعُوذُ بِرَبِّ الْفَلَقِ'، قُل 'أَعُوذُ بِرَبِّ النَّاسِ' (ثلاث مرات).", count: 3 },
-                { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلكَ الْمَصِيرُ.", count: 1 },
+                { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.", count: 1 },
                 { text: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", count: 3 }
             ]
         };
@@ -710,7 +716,7 @@
             listContainer.innerHTML = "";
 
             if (!dayData.quran || dayData.quran.length === 0) {
-                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">   لا تنسي قراءة سورة الملك عند النوم</span>`;
+                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">لا توجد أوراد مضافة اليوم.. ابدئي بالدلال الروحي 📖</span>`;
                 return;
             }
 
@@ -757,7 +763,7 @@
             listContainer.innerHTML = "";
 
             if (!dayData.priority || dayData.priority.length === 0) {
-                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">  </span>`;
+                listContainer.innerHTML = `<span class="text-[10px] text-slate-400 italic block py-1">لا توجد أولويات كبرى اليوم.. حددي بوصلتكِ 🎯</span>`;
                 return;
             }
 
@@ -878,7 +884,7 @@
             tbody.innerHTML = "";
 
             if (!dayData.purchases || dayData.purchases.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="p-3 text-center text-[10px] text-slate-400">  </td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" class="p-3 text-center text-[10px] text-slate-400">قائمة اليوم فارغة.. ردي توكيدات الوفرة ✨</td></tr>`;
                 return;
             }
 
@@ -935,7 +941,7 @@
             } else if (percentage < 0.4) {
                 msgElement.innerHTML = "✨ بداية لطيفة.. خلاياكِ بدأت تتنفس النور وتستشعر الدلال! 🧴";
             } else if (percentage < 0.8) {
-                msgElement.innerHTML = "🌸 تألق لافت! روتين رائع يغمر بشرتكِ وشعركِ بالصحة والتشافي 🧖♀️";
+                msgElement.innerHTML = "🌸 تألق لافت! روتين رائع يغمر بشرتكِ وشعركِ بالصحة والتشافي 🧖‍♀️";
             } else {
                 msgElement.innerHTML = "👑 متوهجة بالكامل! رعاية ملكية شاملة للجسد والروح والجمال اليوم 👑";
             }
@@ -947,7 +953,7 @@
             activeDate = newDateVal;
             localStorage.setItem('glowup_active_date', activeDate);
             loadDayData(activeDate);
-            showToast(`تم تحميل  التاريخ: ${activeDate} 🗓️`);
+            showToast(`تم تحميل طقوس تاريخ: ${activeDate} 🗓️`);
         }
 
         // Save Current Day Celebration Dialog
@@ -961,10 +967,10 @@
             const body = document.getElementById('modal-body');
 
             title.innerText = "👑 فخورون بتألقكِ اليوم!";
-             body.innerHTML = `
+            body.innerHTML = `
                 <div class="text-center space-y-4 py-2">
                     <p class="text-4xl animate-bounce">🌸✨👸</p>
-                    <h3 class="text-lg font-bold text-pink-700">تهانينا على إتمام مهامك بنجاح!</h3>
+                    <h3 class="text-lg font-bold text-pink-700">تهانينا على إتمام طقوسكِ بنجاح!</h3>
                     <p class="text-slate-600 text-xs leading-relaxed">
                         لقد تم حفظ هذا اليوم بأمان في سجل التحدي السنوي الخاص بكِ.<br> 
                         الاستمرارية والدلال الذاتي هي سر توهجك المستمر. واصلي التقدم يا جميلة! 🤍
@@ -1124,7 +1130,7 @@
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <span class="font-mono font-bold text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">${dateStr}</span>
-                        <span class="text-[10px] font-bold ${steps >= 10 ? 'text-emerald-600' : 'text-pink-600'} bg-pink-50 px-2 py-0.5 rounded-full">${steps}/14 خطوة </span>
+                        <span class="text-[10px] font-bold ${steps >= 10 ? 'text-emerald-600' : 'text-pink-600'} bg-pink-50 px-2 py-0.5 rounded-full">${steps}/14 خطوة دلال</span>
                     </div>
                     <p class="text-xs text-slate-600 leading-relaxed italic mb-4">"${journalExcerpt}"</p>
                     <div class="flex gap-1.5 text-xs text-slate-400">
@@ -1166,3 +1172,4 @@
         };
     </script>
 </body>
+</html>
