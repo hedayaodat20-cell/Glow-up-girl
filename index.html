@@ -148,6 +148,39 @@
         <div class="p-4 md:p-8">
             <!-- VIEW 1: TODAY'S VIEW -->
             <div id="view-today" class="tab-content block">
+                <!-- 🔔 تذكيراتي: الصلاة الجاية + تذكير لطيف + تفعيل تذكيرات الجوال -->
+                <div id="bell-card" class="bg-white p-4 rounded-2xl border border-pink-100 shadow-sm mb-6">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <h3 class="text-base font-bold text-slate-800">🔔 تذكيراتي</h3>
+                        <select id="bell-city" class="text-xs bg-[#FCECF5] text-[#B35F85] border border-pink-200 rounded-lg px-2 py-1 font-semibold">
+                            <option value="Amman|Jordan">عمّان</option>
+                            <option value="Irbid|Jordan">إربد</option>
+                            <option value="Zarqa|Jordan">الزرقاء</option>
+                            <option value="Salt|Jordan">السلط</option>
+                            <option value="Madaba|Jordan">مادبا</option>
+                            <option value="Jerash|Jordan">جرش</option>
+                            <option value="Ajloun|Jordan">عجلون</option>
+                            <option value="Mafraq|Jordan">المفرق</option>
+                            <option value="Karak|Jordan">الكرك</option>
+                            <option value="Tafilah|Jordan">الطفيلة</option>
+                            <option value="Ma'an|Jordan">معان</option>
+                            <option value="Aqaba|Jordan">العقبة</option>
+                            <option value="other">مدينة أخرى…</option>
+                        </select>
+                    </div>
+                    <div id="bell-other" class="hidden flex gap-2 mb-3">
+                        <input id="bell-other-city" type="text" placeholder="المدينة بالإنجليزي (Dubai)" class="flex-1 min-w-0 text-xs border border-pink-200 rounded-lg px-2 py-1.5">
+                        <input id="bell-other-country" type="text" placeholder="الدولة (UAE)" class="w-24 text-xs border border-pink-200 rounded-lg px-2 py-1.5">
+                        <button id="bell-other-save" type="button" class="text-xs bg-[#B35F85] text-white rounded-lg px-3 py-1.5 font-bold">حفظ</button>
+                    </div>
+                    <div id="bell-prayer" class="flex items-center justify-between gap-2 bg-indigo-50/70 border border-indigo-100 rounded-xl px-3 py-2.5 mb-2.5">
+                        <span class="text-xs text-indigo-900">🕌 <span id="bell-prayer-text">جاري تحميل مواقيت الصلاة…</span></span>
+                        <span id="bell-countdown" class="text-[11px] font-bold text-indigo-700 whitespace-nowrap"></span>
+                    </div>
+                    <div id="bell-nudge" class="text-xs font-semibold text-[#B35F85] bg-[#FCECF5] border border-pink-100 rounded-xl px-3 py-2.5 mb-3 transition-opacity duration-300">🌸 يومكِ يستاهل لحظة اهتمام</div>
+                    <a id="bell-ics" href="reminders.ics" target="_blank" rel="noopener" class="block w-full text-center bg-gradient-to-r from-pink-500 to-[#B35F85] text-white font-bold py-2.5 rounded-xl shadow-sm text-sm">📲 فعّلي تذكيراتي على الجوال</a>
+                </div>
+
                 <div class="bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 p-5 rounded-2xl border border-pink-100/60 mb-6">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
                         <div>
@@ -349,7 +382,7 @@
                 </div>
             </div>
 <footer class="bg-gradient-to-b from-white to-[#FDF6FB] border-t border-pink-50 text-center py-6 text-xs text-slate-400 font-medium tracking-wide">
- <p class="mb-2 text-[11px] text-[#B35F85]/80"></p>
+ <p class="mb-2 text-[11px] text-[#B35F85]/80">🔒 بياناتكِ محفوظة على هذا الجهاز فقط، لذلك مسح بيانات المتصفح أو تغيير الجوال يمسحها.</p>
  <p>© 2026 جميع الحقوق محفوظة | Designed by <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">Hedaya Odat</span></p>
     </footer>
             <!-- VIEW 2: WEEKLY VIEW -->
@@ -1084,6 +1117,124 @@
             loadDayData(activeDate);
         };
     </script>
+<script>
+// ================= 🔔 تذكيراتي (ميزة مستقلة، ما بتغيّر أي شي بباقي التطبيق) =================
+(function () {
+    const CITY_KEY = 'glowup_city';            // المدينة المختارة
+    const CACHE_KEY = 'glowup_prayer_cache';   // آخر مواقيت محفوظة (للاستخدام بدون نت)
+    const NAMES = { Fajr: 'الفجر', Dhuhr: 'الظهر', Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء' };
+    const ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    let timings = null, nudgeIndex = 0, notified = {};
+
+    function $(id) { return document.getElementById(id); }
+    function getCity() {
+        try { const c = JSON.parse(localStorage.getItem(CITY_KEY)); if (c && c.city) return c; } catch (e) {}
+        return { city: 'Amman', country: 'Jordan' };
+    }
+    function localDateStr(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+    function toMinutes(t) { const m = String(t).match(/(\d{1,2}):(\d{2})/); return m ? (+m[1]) * 60 + (+m[2]) : null; }
+    function fmt12(t) { const m = toMinutes(t); if (m === null) return t; let h = Math.floor(m / 60), mm = String(m % 60).padStart(2, '0'); const s = h < 12 ? 'ص' : 'م'; h = h % 12 || 12; return h + ':' + mm + ' ' + s; }
+
+    function loadTimings() {
+        const c = getCity();
+        const now = new Date();
+        const dd = String(now.getDate()).padStart(2, '0'), mm = String(now.getMonth() + 1).padStart(2, '0');
+        const isJordan = /^jordan$|^الأردن$|^الاردن$/i.test(c.country.trim());
+        const url = 'https://api.aladhan.com/v1/timingsByCity/' + dd + '-' + mm + '-' + now.getFullYear() +
+            '?city=' + encodeURIComponent(c.city) + '&country=' + encodeURIComponent(c.country) + (isJordan ? '&method=23' : '');
+        // نعرض المحفوظ فورًا (إذا لنفس المدينة وعمره أقل من أسبوع)
+        try {
+            const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+            if (cached && cached.city === c.city && cached.country === c.country && (Date.now() - cached.savedAt) < 7 * 864e5) timings = cached.timings;
+        } catch (e) {}
+        render();
+        fetch(url).then(r => r.json()).then(j => {
+            if (j && j.code === 200 && j.data && j.data.timings) {
+                timings = j.data.timings;
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ city: c.city, country: c.country, date: localDateStr(now), savedAt: Date.now(), timings: timings }));
+            } else if (!timings) { timings = 'error'; }
+            render();
+        }).catch(() => { if (!timings) timings = 'error'; render(); });
+    }
+
+    function renderPrayer() {
+        const txt = $('bell-prayer-text'), cd = $('bell-countdown');
+        if (!timings) return;
+        if (timings === 'error') { txt.textContent = 'تعذر تحميل المواقيت، تأكدي من النت أو اسم المدينة'; cd.textContent = ''; return; }
+        const now = new Date(), nowMin = now.getHours() * 60 + now.getMinutes();
+        let next = null, nextMin = 0;
+        for (const k of ORDER) { const m = toMinutes(timings[k]); if (m !== null && m > nowMin) { next = k; nextMin = m; break; } }
+        let tomorrow = false;
+        if (!next) { next = 'Fajr'; nextMin = toMinutes(timings.Fajr) + 1440; tomorrow = true; }
+        const left = nextMin - nowMin, h = Math.floor(left / 60), m = left % 60;
+        txt.textContent = 'الصلاة الجاية: ' + NAMES[next] + (tomorrow ? ' (بكرا)' : '') + ' ' + fmt12(timings[next]);
+        cd.textContent = 'بعد ' + (h ? h + ' س و ' : '') + m + ' د';
+        // تنبيه داخل التطبيق لما يدخل وقت الصلاة (والتطبيق مفتوح)
+        const today = localDateStr(now);
+        for (const k of ORDER) {
+            const pm = toMinutes(timings[k]);
+            if (pm !== null && nowMin >= pm && nowMin - pm < 2 && !notified[today + k]) {
+                notified[today + k] = true;
+                if (typeof showToast === 'function') showToast('🕌 حان الآن وقت صلاة ' + NAMES[k]);
+            }
+        }
+    }
+
+    function nudges() {
+        const list = [];
+        const hr = new Date().getHours();
+        let day = null;
+        try { day = (typeof appState !== 'undefined' && appState.days) ? appState.days[activeDate] : null; } catch (e) {}
+        const water = day ? (day.water || 0) : 0;
+        const care = day && day.routine ? day.routine.filter(Boolean).length : 0;
+        const journal = day && day.journal ? day.journal.trim() : '';
+        if (water < 8) list.push('💧 اشربي كاسة مي (' + water + '/8 اليوم)');
+        if (care === 0) list.push('🌸 أنجزي خطوة عناية وحدة اليوم');
+        if (hr >= 19 && !journal) list.push('✍️ دوّني يومكِ قبل النوم');
+        if (!list.length) list.push('👑 ما شاء الله، يومكِ مرتب! كمّلي هيك');
+        return list;
+    }
+    function renderNudge(rotate) {
+        const el = $('bell-nudge'); if (!el) return;
+        const list = nudges();
+        if (rotate) nudgeIndex++;
+        el.textContent = list[nudgeIndex % list.length];
+    }
+    function render() { renderPrayer(); renderNudge(false); }
+
+    function initBell() {
+        if (!$('bell-card')) return;
+        const sel = $('bell-city'), c = getCity();
+        const key = c.city + '|' + c.country;
+        if ([...sel.options].some(o => o.value === key)) sel.value = key;
+        else { sel.value = 'other'; $('bell-other').classList.remove('hidden'); $('bell-other-city').value = c.city; $('bell-other-country').value = c.country; }
+        sel.addEventListener('change', () => {
+            if (sel.value === 'other') { $('bell-other').classList.remove('hidden'); return; }
+            $('bell-other').classList.add('hidden');
+            const p = sel.value.split('|');
+            localStorage.setItem(CITY_KEY, JSON.stringify({ city: p[0], country: p[1] }));
+            timings = null; $('bell-prayer-text').textContent = 'جاري تحميل مواقيت الصلاة…'; $('bell-countdown').textContent = '';
+            loadTimings();
+        });
+        $('bell-other-save').addEventListener('click', () => {
+            const city = $('bell-other-city').value.trim(), country = $('bell-other-country').value.trim();
+            if (!city || !country) { if (typeof showToast === 'function') showToast('اكتبي المدينة والدولة بالإنجليزي 🌍'); return; }
+            localStorage.setItem(CITY_KEY, JSON.stringify({ city: city, country: country }));
+            timings = null; $('bell-prayer-text').textContent = 'جاري تحميل مواقيت الصلاة…'; $('bell-countdown').textContent = '';
+            loadTimings();
+        });
+        // التذكير يتحدث لما تعلّم على أي شي بالتطبيق
+        document.addEventListener('change', () => setTimeout(() => renderNudge(false), 50));
+        document.addEventListener('click', () => setTimeout(() => renderNudge(false), 50));
+        loadTimings();
+        setInterval(renderPrayer, 30000);
+        setInterval(() => renderNudge(true), 8000);
+        let lastDay = localDateStr(new Date());
+        setInterval(() => { const d = localDateStr(new Date()); if (d !== lastDay) { lastDay = d; loadTimings(); } }, 60000);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBell); else initBell();
+})();
+</script>
 <script>
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 </script>
