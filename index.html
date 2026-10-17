@@ -38,6 +38,10 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #D8A5C9;
         }
+        /* أكواب الماء: الفارغة واضحة والممتلئة مميزة */
+        .water-cup { flex: 1 1 0; min-width: 0; border-radius: 10px; padding: 3px 0; font-size: 1.1rem; line-height: 1.6rem; }
+        .water-cup.cup-empty { filter: grayscale(1); opacity: 0.6; border: 2px dashed #7dd3fc; background: #f8fafc; }
+        .water-cup.cup-full { filter: none; opacity: 1; border: 2px solid #0ea5e9; background: #e0f2fe; }
     </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#B35F85">
@@ -59,11 +63,12 @@
                 <h1 class="serif-quote text-6xl font-extrabold text-[#E75480] tracking-wide">
                     Glow Up
                 </h1>
+                <p class="mt-4 px-2 text-[#B35F85] text-base font-semibold leading-relaxed">رفيقتكِ اليومية للعناية بنفسكِ 🌸</p>
             </div>
 
             <!-- Get Started Button -->
-            <button onclick="enterApp()" class="mt-16 bg-[#E08FA8] hover:bg-[#d47995] text-white font-medium py-3 px-8 rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 text-sm md:text-base border border-white/20">
-                Get started glow up
+            <button onclick="enterApp()" class="mt-10 bg-[#E08FA8] hover:bg-[#d47995] text-white font-medium py-3 px-8 rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 text-sm md:text-base border border-white/20">
+                ابدئي رحلتكِ ✨
             </button>
         </div>
     </div>
@@ -78,13 +83,13 @@
             
             <div class="text-center relative z-10 px-4">
                 <h3 class="serif-quote text-2xl md:text-3xl lg:text-4xl text-[#C97FA2] font-semibold tracking-wide italic leading-snug">
-                    Glowing skin,
+                    <span dir="ltr">Glowing skin,</span>
                 </h3>
                 <h3 class="serif-quote text-2xl md:text-3xl lg:text-4xl text-[#C97FA2] font-semibold tracking-wide italic leading-snug">
                     Glowing mind
                 </h3>
                 <h2 class="serif-quote text-3xl md:text-4xl lg:text-5xl text-[#B35F85] font-bold tracking-widest italic mt-1 leading-snug">
-                    Glowing life.
+                    <span dir="ltr">Glowing life.</span>
                 </h2>
             </div>
         </div>
@@ -219,14 +224,14 @@
                             <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-droplet text-sky-500"></i> تتبع شرب الماء</h4>
                             <p class="text-[10px] text-slate-400 mb-3">اضغطي الكؤوس لتسجيل شربكِ للماء اليومي (الهدف: 8 كؤوس).</p>
                             <div class="flex gap-2 justify-between bg-sky-50/40 p-2.5 rounded-xl border border-sky-100/60">
-                                <button onclick="setWater(1)" id="cup-1" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(2)" id="cup-2" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(3)" id="cup-3" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(4)" id="cup-4" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(5)" id="cup-5" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(6)" id="cup-6" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(7)" id="cup-7" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
-                                <button onclick="setWater(8)" id="cup-8" class="water-cup text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(1)" id="cup-1" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(2)" id="cup-2" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(3)" id="cup-3" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(4)" id="cup-4" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(5)" id="cup-5" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(6)" id="cup-6" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(7)" id="cup-7" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
+                                <button onclick="setWater(8)" id="cup-8" class="water-cup cup-empty text-xl text-slate-300 hover:scale-110 transition-all">🥛</button>
                             </div>
                         </div>
                     </div>
@@ -237,7 +242,7 @@
                             <h4 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-heart text-pink-500"></i> روتين العناية الـ 14 خطوة</h4>
                             <span id="beauty-status" class="text-[10px] bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full font-bold">0 / 14</span>
                         </div>
-                        <div class="space-y-4 max-h-[440px] overflow-y-auto pr-1">
+                        <div class="space-y-4 pr-1">
                             <div>
                                 <h5 class="text-xs font-bold text-pink-700 bg-pink-50/60 p-1.5 rounded mb-2"><i class="fa-solid fa-sparkles"></i> البشرة (6 خطوات)</h5>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
@@ -344,7 +349,8 @@
                 </div>
             </div>
 <footer class="bg-gradient-to-b from-white to-[#FDF6FB] border-t border-pink-50 text-center py-6 text-xs text-slate-400 font-medium tracking-wide">
- <p>© 2026 جميع الحقوق محفوظة | Designed by <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">hedaya odat</span></p>
+ <p class="mb-2 text-[11px] text-[#B35F85]/80">🔒 بياناتكِ محفوظة على هذا الجهاز فقط، لذلك مسح بيانات المتصفح أو تغيير الجوال يمسحها.</p>
+ <p>© 2026 جميع الحقوق محفوظة | Designed by <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">Hedaya Odat</span></p>
     </footer>
             <!-- VIEW 2: WEEKLY VIEW -->
             <div id="view-weekly" class="tab-content hidden animate-fade-in">
@@ -430,6 +436,8 @@
         }
 
         let todayDateStr = new Date().toLocaleDateString('en-CA');
+        // عرض التاريخ بصيغة يوم/شهر/سنة (للعرض فقط، المفاتيح المحفوظة كما هي)
+        function fmtDate(d) { if (!d || typeof d !== 'string') return d; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; }
         let startDate = localStorage.getItem('glowup_start_date') || todayDateStr;
         let activeDate = localStorage.getItem('glowup_active_date') || todayDateStr;
         let autoAdvanceTimer = null;
@@ -555,7 +563,7 @@
             startDate = newDateVal;
             localStorage.setItem('glowup_start_date', startDate);
             updateDayCounterBadge();
-            showToast(`تم تعيين تاريخ بداية الانطلاق: ${startDate} 🚀`);
+            showToast(`تم تعيين تاريخ بداية الانطلاق: ${fmtDate(startDate)} 🚀`);
         }
 
         function changeActiveDate(newDateVal) {
@@ -564,7 +572,7 @@
             localStorage.setItem('glowup_active_date', activeDate);
             loadDayData(activeDate);
             updateDayCounterBadge();
-            showToast(`تم تحميل التاريخ: ${activeDate} 🗓️`);
+            showToast(`تم تحميل التاريخ: ${fmtDate(activeDate)} 🗓️`);
         }
 
         function loadDayData(dateString) {
@@ -665,7 +673,7 @@
             document.getElementById('active-date-picker').value = activeDate;
             loadDayData(activeDate);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast(`✨ تم تجهيز الشاشة فارغة لليوم الجديد: ${activeDate} 🚀`);
+            showToast(`✨ تم تجهيز الشاشة فارغة لليوم الجديد: ${fmtDate(activeDate)} 🚀`);
         }
 
         function closeModal() {
@@ -688,11 +696,11 @@
             for (let i = 1; i <= 8; i++) {
                 const cup = document.getElementById('cup-' + i);
                 if (i <= cupsNum) {
-                    cup.classList.remove('text-slate-300', 'grayscale', 'opacity-30');
-                    cup.classList.add('text-sky-500');
+                    cup.classList.remove('text-slate-300', 'grayscale', 'opacity-30', 'cup-empty');
+                    cup.classList.add('text-sky-500', 'cup-full');
                 } else {
-                    cup.classList.remove('text-sky-500');
-                    cup.classList.add('text-slate-300', 'grayscale', 'opacity-30');
+                    cup.classList.remove('text-sky-500', 'cup-full');
+                    cup.classList.add('text-slate-300', 'cup-empty');
                 }
             }
         }
@@ -998,7 +1006,7 @@
                 tr.className = isCurrentActive ? 'bg-gradient-to-r from-pink-50/70 to-purple-50/70 font-semibold border-2 border-pink-200' : 'border-b border-slate-100 hover:bg-slate-50/50';
                 tr.innerHTML = `
                     <td class="p-3.5 text-right text-slate-800 font-mono font-bold">
-                        ${dateStr} ${isCurrentActive ? ' (اليوم المحدد 👑)' : ''}
+                        <span dir="ltr">${fmtDate(dateStr)}</span> ${isCurrentActive ? ' (اليوم المحدد 👑)' : ''}
                     </td>
                     <td class="p-3.5 text-indigo-700 font-semibold"><i class="fa-solid fa-mosque mr-1 opacity-70"></i> ${prayers} / 5</td>
                     <td class="p-3.5 text-pink-700 font-semibold"><i class="fa-solid fa-heart mr-1 opacity-70"></i> ${steps} / 14</td>
@@ -1038,7 +1046,7 @@
                 card.className = "bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all cursor-pointer hover:-translate-y-1 text-right";
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-                        <span class="font-mono font-bold text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">${dateStr}</span>
+                        <span class="font-mono font-bold text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg" dir="ltr">${fmtDate(dateStr)}</span>
                         <span class="text-[10px] font-bold ${steps >= 10 ? 'text-emerald-600' : 'text-pink-600'} bg-pink-50 px-2 py-0.5 rounded-full">${steps}/14 خطوة</span>
                     </div>
                     <p class="text-xs text-slate-600 leading-relaxed italic mb-4">"${journalExcerpt}"</p>
@@ -1054,7 +1062,7 @@
                     document.getElementById('active-date-picker').value = activeDate;
                     switchTab('today');
                     loadDayData(activeDate);
-                    showToast(`تم تحميل أرشيف يوم: ${dateStr} 📖✨`);
+                    showToast(`تم تحميل أرشيف يوم: ${fmtDate(dateStr)} 📖✨`);
                 };
                 grid.appendChild(card);
             });
