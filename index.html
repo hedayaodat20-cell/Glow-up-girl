@@ -51,6 +51,120 @@
 </head>
 <body class="text-slate-800 min-h-screen pb-12">
 
+    <!-- ================= 🔐 شاشة التفعيل (Glow Up 365) — إضافة مستقلة ================= -->
+    <style>
+        #glowup-gate { position: fixed; inset: 0; z-index: 2147483000; background: #FCD8E3; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; font-family: 'Tajawal', sans-serif; }
+        #glowup-gate.gate-hidden { display: none; }
+        #glowup-gate .gate-card { width: 100%; max-width: 360px; background: #ffffff; border-radius: 28px; padding: 28px 22px 22px; box-shadow: 0 18px 40px rgba(179, 95, 133, 0.22); border: 1px solid #F7C9DA; text-align: center; }
+        #glowup-gate .gate-logo { font-family: 'Playfair Display', serif; font-weight: 600; color: #E75480; font-size: 2.6rem; line-height: 1.1; margin: 0; }
+        #glowup-gate .gate-spark { color: #E75480; font-size: 1.3rem; margin-bottom: 4px; }
+        #glowup-gate .gate-title { font-family: 'Cairo', sans-serif; color: #B35F85; font-size: 1.2rem; font-weight: 700; margin: 14px 0 18px; line-height: 1.6; }
+        #glowup-gate .gate-input { width: 100%; box-sizing: border-box; border: 2px solid #F3B6CC; border-radius: 16px; padding: 13px 14px; font-size: 1.05rem; text-align: center; letter-spacing: 1px; color: #6b2f4c; background: #FFF7FA; outline: none; font-family: 'Tajawal', sans-serif; }
+        #glowup-gate .gate-input:focus { border-color: #E75480; box-shadow: 0 0 0 3px rgba(231, 84, 128, 0.18); }
+        #glowup-gate .gate-btn { width: 100%; margin-top: 12px; border: 0; border-radius: 999px; padding: 13px 18px; background: #E08FA8; color: #fff; font-size: 1.05rem; font-weight: 700; font-family: 'Cairo', sans-serif; cursor: pointer; box-shadow: 0 6px 14px rgba(224, 143, 168, 0.45); }
+        #glowup-gate .gate-btn:hover { background: #d47995; }
+        #glowup-gate .gate-btn:disabled { opacity: 0.7; cursor: wait; }
+        #glowup-gate .gate-msg { min-height: 1.4em; margin: 12px 0 0; font-size: 0.92rem; color: #C2185B; line-height: 1.6; }
+        #glowup-gate .gate-link { display: inline-block; margin-top: 14px; color: #B35F85; font-size: 0.95rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+    </style>
+    <style>
+#glowup-gate .gate-card{background:transparent!important;box-shadow:none!important;border:none!important;max-width:300px!important;margin:0 auto!important;padding:0!important}
+#glowup-gate .gate-title{font-size:15px!important;font-weight:600!important;opacity:.85;margin:6px 0 34px!important}
+#glowup-gate .gate-logo{font-size:64px!important}
+#glowup-gate .gate-input{background:rgba(255,255,255,.75)!important;border:1.5px solid rgba(179,95,133,.25)!important;border-radius:999px!important;padding:12px 16px!important;font-size:15px!important;text-align:center;letter-spacing:1px;box-shadow:none!important}
+#glowup-gate .gate-btn{border-radius:999px!important;max-width:220px;margin:14px auto 0!important;display:block;padding:12px 0!important}
+#glowup-gate .gate-link{font-size:13px!important;margin-top:28px!important;display:inline-block}
+</style>
+<div id="glowup-gate" role="dialog" aria-modal="true" aria-labelledby="glowup-gate-title">
+        <div class="gate-card">
+            <div class="gate-spark">✦ ✦</div>
+            <p class="gate-logo">Glow Up</p>
+            <h2 id="glowup-gate-title" class="gate-title">رفيقتكِ اليومية للعناية بنفسكِ 🌸</h2>
+            <form id="glowup-gate-form" autocomplete="off" novalidate>
+                <input id="glowup-gate-code" class="gate-input" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="أدخلي كود التفعيل" aria-label="أدخلي كود التفعيل">
+                <button id="glowup-gate-btn" class="gate-btn" type="submit">ابدئي رحلتكِ الآن ✨</button>
+                <p id="glowup-gate-msg" class="gate-msg" role="alert"></p>
+            </form>
+            <a class="gate-link" href="https://wa.me/962776577846?text=%D8%A8%D8%AF%D9%8A%20%D8%A3%D8%B4%D8%AA%D8%B1%D9%8A%20Glow%20Up%20365" target="_blank" rel="noopener">ما عندك كود؟ اطلبيه من هون</a>
+        </div>
+    </div>
+    <script>
+    (function () {
+        var SUPABASE_URL = 'https://pujpztniyyhucfmtqwnp.supabase.co';
+        var SUPABASE_KEY = 'sb_publishable_V-_n9DECT8ZwkfU7h-EuKQ_rZxUh9bQ'; // مفتاح عام (publishable) — مش سري
+        var ACT_KEY = 'glowup_activated', DEV_KEY = 'glowup_device';
+        var gate = document.getElementById('glowup-gate');
+        function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+        if (lsGet(ACT_KEY) === 'yes') { gate.classList.add('gate-hidden'); return; }
+
+        // التطبيق تحت الشاشة مش قابل للاستخدام لحد ما يتفعّل
+        document.documentElement.style.overflow = 'hidden';
+        function setInert(on) {
+            var kids = document.body ? document.body.children : [];
+            for (var i = 0; i < kids.length; i++) {
+                var el = kids[i];
+                if (el === gate || el.tagName === 'SCRIPT' || el.tagName === 'STYLE') continue;
+                if (on) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); }
+                else { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); }
+            }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { if (!gate.classList.contains('gate-hidden')) setInert(true); });
+        else setInert(true);
+
+        function deviceId() {
+            var id = lsGet(DEV_KEY);
+            if (id) return id;
+            if (window.crypto && typeof crypto.randomUUID === 'function') id = crypto.randomUUID();
+            else if (window.crypto && crypto.getRandomValues) {
+                var b = crypto.getRandomValues(new Uint8Array(16));
+                b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+                var h = Array.prototype.map.call(b, function (x) { return (x + 256).toString(16).slice(1); }).join('');
+                id = h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+            } else id = 'dev-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+            lsSet(DEV_KEY, id);
+            return id;
+        }
+        deviceId();
+
+        var form = document.getElementById('glowup-gate-form');
+        var input = document.getElementById('glowup-gate-code');
+        var btn = document.getElementById('glowup-gate-btn');
+        var msg = document.getElementById('glowup-gate-msg');
+        function done() {
+            lsSet(ACT_KEY, 'yes');
+            gate.classList.add('gate-hidden');
+            document.documentElement.style.overflow = '';
+            setInert(false);
+            if (typeof showToast === 'function') showToast('تم التفعيل 🌸 أهلًا فيكِ');
+        }
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var code = input.value.trim();
+            if (!code) { msg.textContent = 'اكتبي الكود أول 🌸'; input.focus(); return; }
+            btn.disabled = true; btn.textContent = 'لحظة… ✨'; msg.textContent = '';
+            var ctrl = window.AbortController ? new AbortController() : null;
+            var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 15000) : null;
+            fetch(SUPABASE_URL + '/rest/v1/rpc/activate_glowup', {
+                method: 'POST',
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ p_code: code, p_device: deviceId() }),
+                signal: ctrl ? ctrl.signal : undefined
+            }).then(function (r) {
+                if (!r.ok) return 'server';
+                return r.json().then(function (d) { return d === true ? 'ok' : 'no'; }, function () { return 'server'; });
+            }, function () { return 'net'; }).then(function (res) {
+                if (timer) clearTimeout(timer);
+                btn.disabled = false; btn.textContent = 'ابدئي رحلتكِ الآن ✨';
+                if (res === 'ok') done();
+                else if (res === 'no') msg.textContent = 'الكود غلط أو مستخدم على جهازين، تواصلي معنا';
+                else if (res === 'net') msg.textContent = 'تأكدي من النت وجربي كمان مرة';
+                else msg.textContent = 'صار خلل بالتفعيل، جربي كمان مرة أو تواصلي معنا';
+            });
+        });
+    })();
+    </script>
+
     <!-- ================= 1. SPLASH / LANDING SCREEN (الرسالة الترحيبية) ================= -->
     <div id="welcome-screen" class="fixed inset-0 z-50 bg-[#FCD8E3] flex flex-col items-center justify-center p-4 transition-all duration-700">
         <div class="flex flex-col items-center text-center max-w-sm w-full">
@@ -382,7 +496,7 @@
                 </div>
             </div>
 <footer class="bg-gradient-to-b from-white to-[#FDF6FB] border-t border-pink-50 text-center py-6 text-xs text-slate-400 font-medium tracking-wide">
- <p class="mb-2 text-[11px] text-[#B35F85]/80"></p>
+ <p class="mb-2 text-[11px] text-[#B35F85]/80"> </p>
  <p>© 2026 جميع الحقوق محفوظة | Designed by <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">Hedaya Odat</span></p>
     </footer>
             <!-- VIEW 2: WEEKLY VIEW -->
