@@ -338,6 +338,9 @@
                 <button onclick="switchTab('today')" id="tab-today" class="tab-btn px-4 py-2 rounded-xl bg-pink-100 text-pink-700 font-bold border border-pink-200 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
                     <i class="fa-solid fa-calendar-day"></i> عرض اليوم (المهام اليومية)
                 </button>
+                <button onclick="switchTab('habits')" id="tab-habits" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-seedling"></i> اكتساب عادة جديدة
+                </button>
                 <button onclick="switchTab('weekly')" id="tab-weekly" class="tab-btn px-4 py-2 rounded-xl bg-slate-50 text-slate-600 font-medium hover:bg-pink-50/50 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all">
                     <i class="fa-solid fa-chart-line"></i> لوحة التقدم الأسبوعي
                 </button>
@@ -584,6 +587,99 @@
                     </button>
                 </div>
             </div>
+            <!-- ================= 🌱 VIEW: اكتساب عادة جديدة (إضافة مستقلة — مفتاح التخزين glowup_habits_v1 فقط) ================= -->
+            <style>
+                #view-habits { --hb-pink:#F4BED8; --hb-pink2:#F08DB8; --hb-blush:#FFF8FA; --hb-rose:#8E3B5F; }
+                #view-habits .hb-card { background:#fff; border:1px solid #FBE3EE; border-radius:22px; box-shadow:0 6px 18px rgba(179,95,133,.08); }
+                #view-habits .hb-btn { background:linear-gradient(90deg,#F08DB8,#E75480); color:#fff; font-family:'Cairo',sans-serif; font-weight:700; border-radius:999px; box-shadow:0 6px 14px rgba(240,141,184,.4); }
+                #view-habits .hb-btn:active { transform:scale(.97); }
+                #view-habits .hb-ghost { background:var(--hb-blush); color:var(--hb-rose); border:1px solid #F4D3E2; font-weight:700; border-radius:999px; }
+                #view-habits .hb-input { width:100%; box-sizing:border-box; border:1.5px solid #F4BED8; border-radius:14px; padding:11px 12px; font-size:16px; background:var(--hb-blush); color:#5b2440; outline:none; font-family:'Tajawal',sans-serif; }
+                #view-habits .hb-input:focus { border-color:#F08DB8; box-shadow:0 0 0 3px rgba(240,141,184,.2); }
+                #view-habits .hb-chip { border:1.5px solid #F4D3E2; background:#fff; color:var(--hb-rose); border-radius:999px; padding:7px 14px; font-weight:700; font-size:13px; }
+                #view-habits .hb-chip.on { background:var(--hb-pink); border-color:var(--hb-pink2); color:var(--hb-rose); }
+                #view-habits .hb-emo { width:40px; height:40px; border-radius:12px; border:1.5px solid #F4D3E2; background:#fff; font-size:20px; display:flex; align-items:center; justify-content:center; }
+                #view-habits .hb-emo.on { background:var(--hb-pink); border-color:var(--hb-pink2); }
+                #view-habits .hb-bar { height:10px; border-radius:999px; background:#FCE7F0; overflow:hidden; }
+                #view-habits .hb-bar > span { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,#F4BED8,#F08DB8); transition:width .4s; }
+                #view-habits .hb-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; }
+                #view-habits .hb-day { aspect-ratio:1/1; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:12px; font-weight:700; line-height:1; border:1.5px solid #F4D3E2; background:#fff; color:#B98AA0; font-family:'Tajawal',sans-serif; padding:0; position:relative; }
+                #view-habits .hb-day small { font-size:8.5px; font-weight:500; opacity:.75; margin-top:2px; }
+                #view-habits .hb-day.done { background:linear-gradient(135deg,#F4BED8,#F08DB8); border-color:#F08DB8; color:#fff; }
+                #view-habits .hb-day.miss { background:#FAF5F7; border-color:#EEE3E8; color:#C9B3BD; }
+                #view-habits .hb-day.future { border-style:dashed; border-color:#F6E1EA; color:#E3C9D5; background:transparent; }
+                #view-habits .hb-day.today { box-shadow:0 0 0 2.5px #8E3B5F; border-color:#fff; }
+                #view-habits .hb-day.today:not(.done) { color:#8E3B5F; background:#FFF8FA; }
+                #view-habits .hb-stat { background:var(--hb-blush); border-radius:14px; padding:8px 4px; text-align:center; }
+                #view-habits .hb-stat b { display:block; font-family:'Cairo',sans-serif; color:var(--hb-rose); font-size:17px; line-height:1.3; }
+                #view-habits .hb-stat span { font-size:10.5px; color:#9C6F84; }
+                #view-habits .hb-today-btn { width:100%; border-radius:16px; padding:11px; font-family:'Cairo',sans-serif; font-weight:700; font-size:15px; border:2px dashed #F08DB8; color:#8E3B5F; background:#FFF8FA; }
+                #view-habits .hb-today-btn.done { border-style:solid; background:linear-gradient(90deg,#F4BED8,#F08DB8); color:#fff; border-color:#F08DB8; }
+                #view-habits .hb-won { background:linear-gradient(135deg,#FFF8FA,#FCE4EF); border-color:#F4BED8; }
+                #view-habits .hb-menu { position:absolute; left:0; top:36px; z-index:20; background:#fff; border:1px solid #F4D3E2; border-radius:14px; box-shadow:0 10px 24px rgba(142,59,95,.15); min-width:130px; overflow:hidden; }
+                #view-habits .hb-menu button { display:flex; gap:8px; align-items:center; width:100%; padding:10px 14px; font-size:14px; color:#5b2440; text-align:right; }
+                #view-habits .hb-menu button + button { border-top:1px solid #FBE3EE; }
+            </style>
+            <div id="view-habits" class="tab-content hidden animate-fade-in">
+                <div class="hb-card p-4 mb-4" style="background:linear-gradient(135deg,#FFF8FA,#FDEAF2)">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <h3 class="text-lg font-bold" style="color:#8E3B5F">🌱 اكتساب عادة جديدة</h3>
+                            <p class="text-xs mt-1" style="color:#9C6F84">خطوة صغيرة كل يوم… وشوفي قديش مشيتِ فيها</p>
+                        </div>
+                        <button id="hb-add-open" onclick="hbOpenForm()" class="hb-btn px-4 py-2.5 text-sm whitespace-nowrap flex items-center gap-1.5"><i class="fa-solid fa-plus"></i> عادة جديدة</button>
+                    </div>
+                    <div id="hb-summary" class="mt-3 text-xs font-bold hidden" style="color:#8E3B5F"></div>
+                </div>
+
+                <!-- نموذج إضافة / تعديل عادة -->
+                <div id="hb-form" class="hb-card p-4 mb-4 hidden">
+                    <h4 id="hb-form-title" class="font-bold mb-3" style="color:#8E3B5F">عادة جديدة ✨</h4>
+                    <label class="block text-xs font-bold mb-1.5" style="color:#8E3B5F" for="hb-name">اسم العادة</label>
+                    <input id="hb-name" class="hb-input mb-3" maxlength="40" placeholder="مثلاً: كاسة ماء أول ما أصحى" autocomplete="off">
+                    <div class="text-xs font-bold mb-1.5" style="color:#8E3B5F">رمز (اختياري)</div>
+                    <div id="hb-emojis" class="flex flex-wrap gap-2 mb-3"></div>
+                    <div class="grid grid-cols-1 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5" style="color:#8E3B5F" for="hb-start">تاريخ البداية</label>
+                            <input id="hb-start" type="date" class="hb-input" style="font-family:monospace">
+                        </div>
+                    </div>
+                    <div class="text-xs font-bold mb-1.5" style="color:#8E3B5F">المدة</div>
+                    <div id="hb-targets" class="flex flex-wrap gap-2 mb-2">
+                        <button type="button" class="hb-chip" data-t="21" onclick="hbPickTarget(21)">21 يوم</button>
+                        <button type="button" class="hb-chip" data-t="30" onclick="hbPickTarget(30)">30 يوم</button>
+                        <button type="button" class="hb-chip" data-t="66" onclick="hbPickTarget(66)">66 يوم</button>
+                        <button type="button" class="hb-chip" data-t="custom" onclick="hbPickTarget('custom')">مدة أخرى</button>
+                    </div>
+                    <div id="hb-custom-wrap" class="hidden mb-2 flex items-center gap-2">
+                        <input id="hb-custom" type="number" inputmode="numeric" min="3" max="365" class="hb-input" style="max-width:110px;text-align:center" placeholder="45">
+                        <span class="text-sm" style="color:#9C6F84">يوم</span>
+                    </div>
+                    <p class="text-[11px] mb-3" style="color:#B98AA0">💡 21 يوم بداية لطيفة، و66 يوم هو المتوسط لتصير العادة تلقائية.</p>
+                    <p id="hb-form-msg" class="text-xs mb-2 min-h-[1em]" style="color:#C2185B"></p>
+                    <div class="flex gap-2">
+                        <button onclick="hbSave()" class="hb-btn flex-1 py-3 text-sm">حفظ العادة 🌸</button>
+                        <button onclick="hbCloseForm()" class="hb-ghost px-5 py-3 text-sm">إلغاء</button>
+                    </div>
+                </div>
+
+                <!-- الحالة الفارغة -->
+                <div id="hb-empty" class="hb-card p-6 text-center hidden">
+                    <div class="text-5xl mb-3">🌱</div>
+                    <h4 class="font-bold text-base mb-1" style="color:#8E3B5F">ابدئي أول عادة لك</h4>
+                    <p class="text-sm mb-4" style="color:#9C6F84">اختاري عادة وحدة صغيرة، وعلّمي عليها كل يوم.<br>رح تشوفي هنا قديش مشيتِ فيها يوم بيوم.</p>
+                    <div class="text-[11px] font-bold mb-2" style="color:#B98AA0">أفكار سريعة</div>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button class="hb-chip" onclick="hbQuick('💧','كاسة ماء أول ما أصحى')">💧 كاسة ماء الصبح</button>
+                        <button class="hb-chip" onclick="hbQuick('🏃‍♀️','10 دقائق رياضة')">🏃‍♀️ 10 دقائق رياضة</button>
+                        <button class="hb-chip" onclick="hbQuick('📖','5 آيات من القرآن')">📖 5 آيات</button>
+                        <button class="hb-chip" onclick="hbQuick('😴','النوم قبل 11')">😴 النوم قبل 11</button>
+                    </div>
+                </div>
+
+                <div id="hb-list" class="space-y-4"></div>
+            </div>
 <footer class="bg-gradient-to-b from-white to-[#FDF6FB] border-t border-pink-50 text-center py-6 text-xs text-slate-400 font-medium tracking-wide">
  <p class="mb-2 text-[11px] text-[#B35F85]/80"> </p>
  <p>© 2026 جميع الحقوق محفوظة | Designed by <span class="text-[#B35F85] font-bold hover:text-pink-600 transition-all cursor-pointer">Hedaya Odat</span></p>
@@ -778,6 +874,7 @@
             activeBtn.className = "tab-btn px-4 py-2 rounded-xl bg-pink-100 text-pink-700 font-bold border border-pink-200 flex items-center gap-2 text-xs md:text-sm whitespace-nowrap transition-all";
             if (tabId === 'weekly') buildWeeklyTable();
             if (tabId === 'archive') buildArchiveGallery();
+            if (tabId === 'habits' && typeof renderHabits === 'function') renderHabits();
         }
 
         function updateDayCounterBadge() {
@@ -1436,6 +1533,217 @@
         setInterval(() => { const d = localDateStr(new Date()); if (d !== lastDay) { lastDay = d; loadTimings(); } }, 60000);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBell); else initBell();
+})();
+</script>
+<script>
+/* ================= 🌱 اكتساب عادة جديدة — إضافة مستقلة =================
+   تخزين: glowup_habits_v1 فقط (لا يلمس أي مفتاح آخر) */
+(function () {
+    var HB_KEY = 'glowup_habits_v1';
+    var EMOJIS = ['🌱','💧','🏃‍♀️','🧘‍♀️','📖','🤲','🥗','😴','☀️','✍️','💪','✨'];
+    var hbEditId = null, hbTarget = 21, hbEmoji = '🌱', hbOpenMenu = null;
+
+    function load() {
+        try { var d = JSON.parse(localStorage.getItem(HB_KEY)); if (d && Array.isArray(d.habits)) return d; } catch (e) {}
+        return { habits: [] };
+    }
+    function save(d) { try { localStorage.setItem(HB_KEY, JSON.stringify(d)); } catch (e) {} }
+    function todayStr() { return new Date().toLocaleDateString('en-CA'); }
+    function parse(s) { var p = String(s).split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+    function addDays(s, n) { var d = new Date(parse(s)); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+    function diffDays(a, b) { return Math.round((parse(b) - parse(a)) / 86400000); }
+    function dm(s) { var p = s.split('-'); return (+p[2]) + '/' + (+p[1]); }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function validDate(s) { return /^\d{4}-\d{2}-\d{2}$/.test(s || '') && !isNaN(parse(s)); }
+
+    function stats(h, today) {
+        var target = h.target, done = 0, streak = 0, best = 0, run = 0;
+        var dayN = diffDays(h.start, today) + 1; // رقم اليوم الحالي
+        for (var i = 0; i < target; i++) {
+            var ds = addDays(h.start, i);
+            if (h.done[ds]) { done++; run++; if (run > best) best = run; } else { run = 0; }
+        }
+        // السلسلة الحالية: من اليوم (أو من أمس إذا اليوم لسا ما تعلّم) رجوعاً
+        var last = Math.min(dayN, target) - 1;
+        if (last >= 0) {
+            var k = last;
+            if (dayN <= target && !h.done[addDays(h.start, k)]) k--; // اليوم لسا مفتوح
+            while (k >= 0 && h.done[addDays(h.start, k)]) { streak++; k--; }
+        }
+        return { done: done, target: target, pct: Math.round(done * 100 / target), streak: streak, best: best,
+                 dayN: dayN, notStarted: dayN < 1, ended: dayN > target, won: done >= target };
+    }
+
+    function render() {
+        var d = load(), list = document.getElementById('hb-list');
+        if (!list) return;
+        var today = todayStr();
+        document.getElementById('hb-empty').classList.toggle('hidden', d.habits.length > 0 || !document.getElementById('hb-form').classList.contains('hidden'));
+        var sum = document.getElementById('hb-summary');
+        var active = d.habits.filter(function (h) { var s = stats(h, today); return !s.notStarted && !s.ended; });
+        if (active.length) {
+            var doneToday = active.filter(function (h) { return h.done[today]; }).length;
+            sum.textContent = '✔️ اليوم: ' + doneToday + ' من ' + active.length + (active.length === 1 ? ' عادة' : ' عادات') + (doneToday === active.length ? ' — يا سلام عليكِ 🌸' : '');
+            sum.classList.remove('hidden');
+        } else sum.classList.add('hidden');
+
+        list.innerHTML = d.habits.map(function (h) { return card(h, today); }).join('');
+    }
+
+    function card(h, today) {
+        var s = stats(h, today), end = addDays(h.start, h.target - 1);
+        var em = h.emoji ? '<span class="text-2xl leading-none">' + esc(h.emoji) + '</span>' : '';
+        var status;
+        if (s.notStarted) status = 'تبدأ بعد ' + (1 - s.dayN) + (1 - s.dayN === 1 ? ' يوم' : ' أيام') + ' (' + dm(h.start) + ')';
+        else if (s.ended) status = 'انتهت المدة · ' + h.target + ' يوم';
+        else status = 'اليوم ' + s.dayN + ' من ' + h.target;
+
+        var cells = '';
+        for (var i = 0; i < h.target; i++) {
+            var ds = addDays(h.start, i), cls = 'hb-day', dis = '';
+            if (h.done[ds]) cls += ' done';
+            else if (ds < today) cls += ' miss';
+            if (ds > today) { cls += ' future'; dis = ' disabled'; }
+            if (ds === today) cls += ' today';
+            cells += '<button type="button" class="' + cls + '"' + dis + ' onclick="hbToggle(\'' + h.id + '\',\'' + ds + '\')" aria-label="اليوم ' + (i + 1) + ' ' + ds + (h.done[ds] ? ' منجز' : '') + '">' +
+                (h.done[ds] ? '✓' : (i + 1)) + '<small>' + (ds === today ? 'اليوم' : dm(ds)) + '</small></button>';
+        }
+
+        var banner = '';
+        if (s.won) banner = '<div class="rounded-2xl p-3 mb-3 text-center" style="background:#fff;border:1px solid #F4BED8"><div class="text-2xl">🎉👑</div><div class="font-bold text-sm mt-1" style="color:#8E3B5F">مبروك! أكملتِ ' + h.target + ' يوم من «' + esc(h.name) + '»</div><div class="text-xs mt-1" style="color:#9C6F84">صارت جزء منك… فخورة فيكِ 🌸</div></div>';
+        else if (s.ended) {
+            var missed = h.target - s.done;
+            banner = '<div class="rounded-2xl p-3 mb-3 text-center" style="background:#FFF8FA;border:1px solid #F4D3E2"><div class="font-bold text-sm" style="color:#8E3B5F">🌷 خلصت المدة، وأنجزتِ ' + s.done + ' من ' + h.target + ' يوم (' + s.pct + '%)</div>' +
+                '<div class="text-xs mt-1 mb-2" style="color:#9C6F84">كل يوم عملتيه محسوب. بدك تكمّلي الأيام الناقصة؟</div>' +
+                '<button class="hb-ghost px-4 py-2 text-xs" onclick="hbExtend(\'' + h.id + '\',' + missed + ')">+ ' + missed + (missed === 1 ? ' يوم' : ' أيام') + ' كمان</button></div>';
+        }
+
+        var todayBtn = '';
+        if (!s.notStarted && !s.ended) {
+            todayBtn = '<button class="hb-today-btn mb-3' + (h.done[today] ? ' done' : '') + '" onclick="hbToggle(\'' + h.id + '\',\'' + today + '\')">' +
+                (h.done[today] ? '✓ عملتيها اليوم 🌸' : 'علّمي اليوم ✓') + '</button>';
+        }
+
+        return '<div class="hb-card p-4' + (s.won ? ' hb-won' : '') + '" id="hb-card-' + h.id + '">' +
+            '<div class="flex items-start justify-between gap-2 mb-3 relative">' +
+                '<div class="flex items-center gap-2.5 min-w-0">' + em +
+                    '<div class="min-w-0"><div class="font-bold text-base truncate" style="color:#5b2440;font-family:Cairo,sans-serif">' + esc(h.name) + '</div>' +
+                    '<div class="text-[11px] font-bold" style="color:#B35F85">' + status + '</div></div></div>' +
+                '<button class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:#FFF8FA;color:#8E3B5F" onclick="hbMenu(event,\'' + h.id + '\')" aria-label="خيارات"><i class="fa-solid fa-ellipsis"></i></button>' +
+                '<div class="hb-menu hidden" id="hb-menu-' + h.id + '">' +
+                    '<button onclick="hbEdit(\'' + h.id + '\')"><i class="fa-solid fa-pen text-xs" style="color:#F08DB8"></i> تعديل</button>' +
+                    '<button onclick="hbDelete(\'' + h.id + '\')"><i class="fa-solid fa-trash text-xs" style="color:#E11D48"></i> حذف</button>' +
+                '</div>' +
+            '</div>' + banner +
+            '<div class="flex items-center justify-between text-xs font-bold mb-1.5" style="color:#8E3B5F"><span>قديش مشيتِ فيها: ' + s.done + ' / ' + h.target + ' يوم</span><span>' + s.pct + '%</span></div>' +
+            '<div class="hb-bar mb-3"><span style="width:' + s.pct + '%"></span></div>' +
+            '<div class="grid grid-cols-3 gap-2 mb-3">' +
+                '<div class="hb-stat"><b>' + s.done + '</b><span>✅ أيام منجزة</span></div>' +
+                '<div class="hb-stat"><b>' + s.streak + '</b><span>🔥 السلسلة الحالية</span></div>' +
+                '<div class="hb-stat"><b>' + s.best + '</b><span>🏆 أطول سلسلة</span></div>' +
+            '</div>' + todayBtn +
+            '<div class="flex items-center justify-between text-[11px] mb-2" style="color:#9C6F84"><span>🗓️ المخطط الزمني</span><span>' + fmt(h.start) + ' ← ' + fmt(end) + '</span></div>' +
+            '<div class="hb-grid">' + cells + '</div>' +
+        '</div>';
+    }
+    function fmt(s) { var p = s.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+
+    function fillEmojis() {
+        var box = document.getElementById('hb-emojis');
+        box.innerHTML = '<button type="button" class="hb-emo' + (hbEmoji === '' ? ' on' : '') + '" style="font-size:12px;color:#B98AA0" onclick="hbPickEmoji(\'\')">بدون</button>' +
+            EMOJIS.map(function (e) { return '<button type="button" class="hb-emo' + (e === hbEmoji ? ' on' : '') + '" onclick="hbPickEmoji(\'' + e + '\')">' + e + '</button>'; }).join('');
+    }
+    function paintTargets() {
+        var isCustom = [21, 30, 66].indexOf(hbTarget) < 0;
+        document.querySelectorAll('#hb-targets .hb-chip').forEach(function (b) {
+            var t = b.getAttribute('data-t');
+            b.classList.toggle('on', isCustom ? t === 'custom' : +t === hbTarget);
+        });
+        document.getElementById('hb-custom-wrap').classList.toggle('hidden', !isCustom);
+    }
+
+    window.hbPickEmoji = function (e) { hbEmoji = e; fillEmojis(); };
+    window.hbPickTarget = function (t) {
+        if (t === 'custom') { var v = parseInt(document.getElementById('hb-custom').value, 10); hbTarget = v >= 3 ? v : 0; if (!v) document.getElementById('hb-custom').value = ''; }
+        else hbTarget = t;
+        paintTargets();
+        if (t === 'custom') setTimeout(function () { document.getElementById('hb-custom').focus(); }, 30);
+    };
+    window.hbOpenForm = function (prefill) {
+        hbEditId = prefill && prefill.id || null;
+        document.getElementById('hb-form-title').textContent = hbEditId ? 'تعديل العادة ✏️' : 'عادة جديدة ✨';
+        document.getElementById('hb-name').value = prefill && prefill.name || '';
+        document.getElementById('hb-start').value = prefill && prefill.start || todayStr();
+        hbEmoji = prefill && prefill.emoji !== undefined ? prefill.emoji : '🌱';
+        hbTarget = prefill && prefill.target || 21;
+        document.getElementById('hb-custom').value = [21, 30, 66].indexOf(hbTarget) < 0 ? hbTarget : '';
+        document.getElementById('hb-form-msg').textContent = '';
+        fillEmojis(); paintTargets();
+        document.getElementById('hb-form').classList.remove('hidden');
+        document.getElementById('hb-empty').classList.add('hidden');
+        document.getElementById('hb-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    window.hbCloseForm = function () { document.getElementById('hb-form').classList.add('hidden'); hbEditId = null; render(); };
+    window.hbQuick = function (emoji, name) { hbOpenForm({ emoji: emoji, name: name }); };
+    window.hbSave = function () {
+        var name = document.getElementById('hb-name').value.trim();
+        var start = document.getElementById('hb-start').value || todayStr();
+        var msg = document.getElementById('hb-form-msg');
+        var isCustom = [21, 30, 66].indexOf(hbTarget) < 0;
+        var target = isCustom ? parseInt(document.getElementById('hb-custom').value, 10) : hbTarget;
+        if (!name) { msg.textContent = 'اكتبي اسم العادة 🌸'; return; }
+        if (!validDate(start)) { msg.textContent = 'اختاري تاريخ البداية'; return; }
+        if (!(target >= 3 && target <= 365)) { msg.textContent = 'المدة بين 3 و 365 يوم'; return; }
+        var d = load();
+        if (hbEditId) {
+            d.habits.forEach(function (h) { if (h.id === hbEditId) { h.name = name; h.emoji = hbEmoji; h.start = start; h.target = target; } });
+        } else {
+            d.habits.unshift({ id: 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: name, emoji: hbEmoji, start: start, target: target, done: {}, created: todayStr() });
+        }
+        save(d);
+        var wasEdit = !!hbEditId;
+        document.getElementById('hb-form').classList.add('hidden'); hbEditId = null;
+        render();
+        if (typeof showToast === 'function') showToast(wasEdit ? 'تم تعديل العادة ✏️' : 'بداية حلوة! 🌱 علّمي عليها كل يوم');
+    };
+    window.hbToggle = function (id, ds) {
+        if (ds > todayStr()) return;
+        var d = load(), won = false;
+        d.habits.forEach(function (h) {
+            if (h.id !== id) return;
+            var before = stats(h, todayStr()).won;
+            if (h.done[ds]) delete h.done[ds]; else h.done[ds] = 1;
+            won = !before && stats(h, todayStr()).won;
+        });
+        save(d); render();
+        if (won) {
+            try { if (typeof launchCelebrationVisuals === 'function') launchCelebrationVisuals(); if (typeof playCelebrationSparkle === 'function') playCelebrationSparkle(); } catch (e) {}
+        }
+    };
+    window.hbExtend = function (id, n) {
+        var d = load();
+        d.habits.forEach(function (h) { if (h.id === id) h.target = Math.min(365, h.target + n); });
+        save(d); render();
+    };
+    window.hbMenu = function (ev, id) {
+        ev.stopPropagation();
+        var m = document.getElementById('hb-menu-' + id), wasOpen = !m.classList.contains('hidden');
+        document.querySelectorAll('#view-habits .hb-menu').forEach(function (x) { x.classList.add('hidden'); });
+        if (!wasOpen) m.classList.remove('hidden');
+    };
+    document.addEventListener('click', function () { document.querySelectorAll('#view-habits .hb-menu').forEach(function (x) { x.classList.add('hidden'); }); });
+    window.hbEdit = function (id) {
+        var h = load().habits.filter(function (x) { return x.id === id; })[0];
+        if (h) hbOpenForm(h);
+    };
+    window.hbDelete = function (id) {
+        var d = load(), h = d.habits.filter(function (x) { return x.id === id; })[0];
+        if (!h || !confirm('حذف عادة «' + h.name + '»؟ رح ينحذف تقدمها كمان.')) return;
+        d.habits = d.habits.filter(function (x) { return x.id !== id; });
+        save(d); render();
+    };
+    window.renderHabits = render;
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) { var v = document.getElementById('view-habits'); if (v && !v.classList.contains('hidden')) render(); } });
 })();
 </script>
 <script>
