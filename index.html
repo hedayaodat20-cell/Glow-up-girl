@@ -384,7 +384,19 @@
                         <span id="bell-countdown" class="text-[11px] font-bold text-indigo-700 whitespace-nowrap"></span>
                     </div>
                     <div id="bell-nudge" class="text-xs font-semibold text-[#B35F85] bg-[#FCECF5] border border-pink-100 rounded-xl px-3 py-2.5 mb-3 transition-opacity duration-300">🌸 يومكِ يستاهل لحظة اهتمام</div>
-                    <a id="bell-ics" href="reminders.ics" target="_blank" rel="noopener" class="block w-full text-center bg-gradient-to-r from-pink-500 to-[#B35F85] text-white font-bold py-2.5 rounded-xl shadow-sm text-sm">📲 فعّلي تذكيراتي على الجوال</a>
+                    <!-- 🔔 تفعيل إشعارات التذكيرات (Web Push) — والتقويم كبديل صغير -->
+                    <div id="bell-push">
+                        <button id="bell-push-btn" type="button" class="block w-full text-center bg-gradient-to-r from-pink-500 to-[#B35F85] text-white font-bold py-2.5 rounded-xl shadow-sm text-sm">📲 فعّلي تذكيراتي على الجوال</button>
+                        <div id="bell-push-on" class="hidden">
+                            <div class="text-center text-sm font-bold text-[#B35F85] bg-[#FCECF5] border border-pink-100 rounded-xl py-2.5">✅ التذكيرات مفعّلة</div>
+                            <button id="bell-push-test" type="button" class="block w-full mt-2 text-center bg-white text-[#B35F85] border border-pink-200 font-bold py-2 rounded-xl text-sm">🔔 جربي إشعار هلأ</button>
+                        </div>
+                        <p id="bell-push-msg" class="hidden text-xs font-semibold text-[#B35F85] text-center leading-relaxed mt-2"></p>
+                        <div class="flex items-center justify-center gap-3 mt-2 text-[11px]">
+                            <a id="bell-ics" href="reminders.ics" target="_blank" rel="noopener" class="text-[#B35F85] underline underline-offset-4">أو أضيفيها للتقويم</a>
+                            <button id="bell-push-off" type="button" class="hidden text-slate-400 underline underline-offset-4">إيقاف التذكيرات</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 p-5 rounded-2xl border border-pink-100/60 mb-6">
@@ -1748,6 +1760,182 @@
 </script>
 <script>
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+</script>
+<!-- ================= 🔔 إشعارات التذكيرات (Web Push) ================= -->
+<style>
+#glow-push-sheet{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-end;justify-content:center;background:rgba(107,47,76,.35);direction:rtl;font-family:'Tajawal', sans-serif}
+#glow-push-sheet[hidden]{display:none!important}
+#glow-push-sheet .gp-box{width:100%;max-width:440px;background:#FCD8E3;border-radius:26px 26px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(179,95,133,.25);color:#6b2f4c;text-align:center}
+#glow-push-sheet .gp-title{font-family:'Cairo', sans-serif;font-size:17px;font-weight:700;color:#B35F85;margin:0 0 14px;line-height:1.6}
+#glow-push-sheet .gp-card{background:rgba(255,255,255,.72);border:1px solid rgba(179,95,133,.18);border-radius:22px;padding:14px 14px 4px;text-align:right}
+#glow-push-sheet .gp-os{font-size:13px;font-weight:700;color:#B35F85;margin:0 0 10px}
+#glow-push-sheet .gp-row{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:15px;font-weight:500;color:#6b2f4c;line-height:1.5}
+#glow-push-sheet .gp-chip{flex:0 0 38px;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#FFF0F5;color:#E75480;font-size:17px}
+#glow-push-sheet .gp-sep{height:1px;background:rgba(179,95,133,.18);margin:4px 0 12px}
+#glow-push-sheet .gp-note{font-size:12px;font-weight:600;color:#B35F85;margin:12px 0 0;line-height:1.6}
+#glow-push-sheet .gp-btn{display:block;width:100%;max-width:240px;margin:16px auto 0;border:0;border-radius:999px;padding:13px 0;font-family:'Cairo', sans-serif;font-size:16px;font-weight:700;cursor:pointer;background:#E08FA8;color:#fff;box-shadow:0 6px 14px rgba(224,143,168,.45)}
+#glow-push-sheet [hidden]{display:none!important}
+</style>
+<div id="glow-push-sheet" role="dialog" aria-modal="true" aria-labelledby="gp-title" hidden>
+  <div class="gp-box">
+    <!-- آيفون: لازم التطبيق يكون مضاف للشاشة الرئيسية -->
+    <div id="gp-ios" hidden>
+      <h3 id="gp-title" class="gp-title">لتفعيل التذكيرات على الآيفون 🌸</h3>
+      <div class="gp-card">
+        <div class="gp-row"><span class="gp-chip">⬆️</span><span>اضغطي زر المشاركة</span></div>
+        <div class="gp-row"><span class="gp-chip">➕</span><span>اختاري «إضافة إلى الشاشة الرئيسية»</span></div>
+        <div class="gp-row"><span class="gp-chip">🌸</span><span>افتحي التطبيق من الأيقونة، وارجعي اكبسي الزر</span></div>
+      </div>
+      <p class="gp-note">من Safari، وبدها iOS 16.4 أو أحدث</p>
+    </div>
+    <!-- الإشعارات مرفوضة: كيف ترجّعيها -->
+    <div id="gp-denied" hidden>
+      <h3 class="gp-title">الإشعارات مسكّرة للتطبيق 🔕<br>هيك بترجعي تفتحيها:</h3>
+      <div class="gp-card">
+        <p class="gp-os">iPhone</p>
+        <div class="gp-row"><span class="gp-chip">⚙️</span><span>الإعدادات ← الإشعارات ← Glow Up</span></div>
+        <div class="gp-row"><span class="gp-chip">✅</span><span>شغّلي «السماح بالإشعارات»</span></div>
+        <div class="gp-sep"></div>
+        <p class="gp-os">Android</p>
+        <div class="gp-row"><span class="gp-chip">👆</span><span>اضغطي مطوّل على أيقونة Glow Up ← معلومات التطبيق</span></div>
+        <div class="gp-row"><span class="gp-chip">✅</span><span>الإشعارات ← سماح</span></div>
+      </div>
+      <p class="gp-note">وبعدين ارجعي اكبسي «فعّلي تذكيراتي» 🌸</p>
+    </div>
+    <!-- متصفح ما بيدعم الإشعارات -->
+    <div id="gp-unsupported" hidden>
+      <h3 class="gp-title">هالمتصفح ما بيدعم الإشعارات 🙈</h3>
+      <div class="gp-card">
+        <div class="gp-row"><span class="gp-chip">🧭</span><span>افتحي الرابط بـ Chrome (أندرويد) أو Safari (آيفون)</span></div>
+        <div class="gp-row"><span class="gp-chip">📅</span><span>أو استعملي «أضيفيها للتقويم» تحت الزر</span></div>
+      </div>
+    </div>
+    <button id="gp-close" type="button" class="gp-btn">تمام 🌸</button>
+  </div>
+</div>
+<script>
+/* ================= 🔔 إشعارات التذكيرات (Web Push) ================= */
+// ✏️ هاد السطر الوحيد اللي بتعدّليه: حطي رابط الـ Worker تبعك من Cloudflare بين علامتي ' '
+const WORKER_URL = 'https://glowup-reminders.hedayaodat20.workers.dev';
+
+(function () {
+    var $ = function (id) { return document.getElementById(id); };
+    var btn = $('bell-push-btn'), onBox = $('bell-push-on'), testBtn = $('bell-push-test'), offBtn = $('bell-push-off'), msg = $('bell-push-msg');
+    var sheet = $('glow-push-sheet');
+    if (!btn || !sheet) return;
+    var API = WORKER_URL.replace(/\/+$/, '');
+    var BTN_TEXT = btn.textContent;
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    function mq(q) { try { return !!(window.matchMedia && window.matchMedia(q).matches); } catch (e) { return false; } }
+    var standalone = mq('(display-mode: standalone)') || mq('(display-mode: fullscreen)') || window.navigator.standalone === true;
+    var supported = ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
+    var configured = /^https:\/\/[^<>\s]+$/.test(API);
+
+    function say(text) { msg.textContent = text || ''; msg.classList.toggle('hidden', !text); }
+    function setOn(on) {
+        btn.classList.toggle('hidden', on); onBox.classList.toggle('hidden', !on); offBtn.classList.toggle('hidden', !on);
+        try { localStorage.setItem('glowup_push', on ? 'on' : 'off'); } catch (e) {}
+    }
+    function busy(b) { btn.disabled = b; btn.style.opacity = b ? '.7' : ''; btn.textContent = b ? 'لحظة… ⏳' : BTN_TEXT; }
+    function showSheet(which) {
+        ['gp-ios', 'gp-denied', 'gp-unsupported'].forEach(function (id) { $(id).hidden = (id !== 'gp-' + which); });
+        sheet.hidden = false;
+    }
+    $('gp-close').addEventListener('click', function () { sheet.hidden = true; });
+    sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.hidden = true; });
+
+    function keyBytes(b64) {
+        var s = (b64 + '='.repeat((4 - b64.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/');
+        var raw = atob(s), out = new Uint8Array(raw.length);
+        for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+        return out;
+    }
+    function sameKey(a, b) {
+        if (!a || !b) return false;
+        a = new Uint8Array(a); if (a.length !== b.length) return false;
+        for (var i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+        return true;
+    }
+    function tz() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Amman'; } catch (e) { return 'Asia/Amman'; } }
+    function post(path, data) {
+        return fetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .then(function (r) { return r.json().catch(function () { return { ok: false, status: r.status }; }); });
+    }
+    function reg() {
+        return navigator.serviceWorker.getRegistration().then(function (r) { return r || navigator.serviceWorker.register('sw.js'); })
+            .then(function () { return navigator.serviceWorker.ready; });
+    }
+    function askPermission() {
+        return new Promise(function (resolve) {
+            var p = Notification.requestPermission(resolve);
+            if (p && p.then) p.then(resolve);
+        });
+    }
+
+    async function subscribe() {
+        var r = await reg();
+        var res = await fetch(API + '/vapid-public-key');
+        var key = keyBytes((await res.json()).key);
+        var sub = await r.pushManager.getSubscription();
+        if (sub && sub.options && sub.options.applicationServerKey && !sameKey(sub.options.applicationServerKey, key)) { await sub.unsubscribe(); sub = null; }
+        if (!sub) sub = await r.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+        var out = await post('/subscribe', { subscription: sub.toJSON(), tz: tz() });
+        if (!out.ok) throw new Error('subscribe failed');
+        return sub;
+    }
+
+    btn.addEventListener('click', function () {
+        say('');
+        if (isIOS && !standalone) { showSheet('ios'); return; }
+        if (!supported) { showSheet(isIOS ? 'ios' : 'unsupported'); return; }
+        if (!configured) { say('التذكيرات لسا قيد التجهيز، جربي كمان شوي 🌸'); return; }
+        if (Notification.permission === 'denied') { showSheet('denied'); return; }
+        var perm = askPermission();          // لازم تنطلب مباشرة مع الكبسة (آيفون)
+        busy(true);
+        perm.then(function (p) {
+            if (p !== 'granted') { busy(false); if (p === 'denied') showSheet('denied'); else say('لازم تكبسي «السماح» عشان توصلك التذكيرات 🌸'); return; }
+            return subscribe().then(function () {
+                busy(false); setOn(true); say('رح توصلك تذكيراتك كل يوم بوقتها 💧🌸');
+            });
+        }).catch(function (e) {
+            console.warn('push subscribe', e);
+            busy(false); say('ما زبط التفعيل 🙈 تأكدي من النت وجربي كمان مرة');
+        });
+    });
+
+    testBtn.addEventListener('click', async function () {
+        testBtn.disabled = true; say('عم نبعتلك إشعار… ⏳');
+        try {
+            var r = await reg();
+            var sub = await r.pushManager.getSubscription();
+            if (!sub) sub = await subscribe();
+            var out = await post('/test', { endpoint: sub.endpoint });
+            if (!out.ok && (out.gone || out.error === 'not subscribed')) { sub = await subscribe(); out = await post('/test', { endpoint: sub.endpoint }); }
+            say(out.ok ? 'انبعت ✅ لازم يوصلك خلال ثواني 🌸' : 'ما وصل الإشعار 🙈 جربي كمان مرة بعد شوي');
+        } catch (e) { console.warn('push test', e); say('ما قدرنا نبعت هلأ 🙈 تأكدي من النت وجربي كمان مرة'); }
+        testBtn.disabled = false;
+    });
+
+    offBtn.addEventListener('click', async function () {
+        if (!confirm('بدك توقفي التذكيرات؟')) return;
+        try {
+            var r = await reg();
+            var sub = await r.pushManager.getSubscription();
+            if (sub) { post('/unsubscribe', { endpoint: sub.endpoint }).catch(function () {}); await sub.unsubscribe(); }
+        } catch (e) {}
+        setOn(false); say('وقفنا التذكيرات. بترجعي تفعليها بأي وقت 🌸');
+    });
+
+    // عند الفتح: إذا كانت مفعّلة، نوري حالتها ونحدّث السيرفر بهدوء
+    if (supported && configured && Notification.permission === 'granted') {
+        reg().then(function (r) { return r.pushManager.getSubscription(); }).then(function (sub) {
+            if (sub) { setOn(true); return post('/subscribe', { subscription: sub.toJSON(), tz: tz() }); }
+            var was = null; try { was = localStorage.getItem('glowup_push'); } catch (e) {}
+            if (was === 'on') return subscribe().then(function () { setOn(true); });   // الاشتراك انتهى؟ نجدده بهدوء
+        }).catch(function () {});
+    }
+})();
 </script>
 <script>(function(){var a=document.getElementById('bell-ics');if(a&&/iPhone|iPad|iPod/i.test(navigator.userAgent)){a.href='webcal://'+location.host+location.pathname.replace(/[^\/]*$/,'')+'reminders.ics';a.removeAttribute('target');}})();</script>
 </body>
