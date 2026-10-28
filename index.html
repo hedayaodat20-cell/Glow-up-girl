@@ -384,18 +384,10 @@
                         <span id="bell-countdown" class="text-[11px] font-bold text-indigo-700 whitespace-nowrap"></span>
                     </div>
                     <div id="bell-nudge" class="text-xs font-semibold text-[#B35F85] bg-[#FCECF5] border border-pink-100 rounded-xl px-3 py-2.5 mb-3 transition-opacity duration-300">🌸 يومكِ يستاهل لحظة اهتمام</div>
-                    <!-- 🔔 تفعيل إشعارات التذكيرات (Web Push) — والتقويم كبديل صغير -->
+                    <!-- 🔔 تفعيل إشعارات التذكيرات (Web Push) -->
                     <div id="bell-push">
                         <button id="bell-push-btn" type="button" class="block w-full text-center bg-gradient-to-r from-pink-500 to-[#B35F85] text-white font-bold py-2.5 rounded-xl shadow-sm text-sm">📲 فعّلي تذكيراتي على الجوال</button>
-                        <div id="bell-push-on" class="hidden">
-                            <div class="text-center text-sm font-bold text-[#B35F85] bg-[#FCECF5] border border-pink-100 rounded-xl py-2.5">✅ التذكيرات مفعّلة</div>
-                            <button id="bell-push-test" type="button" class="block w-full mt-2 text-center bg-white text-[#B35F85] border border-pink-200 font-bold py-2 rounded-xl text-sm">🔔 جربي إشعار هلأ</button>
-                        </div>
-                        <p id="bell-push-msg" class="hidden text-xs font-semibold text-[#B35F85] text-center leading-relaxed mt-2"></p>
-                        <div class="flex items-center justify-center gap-3 mt-2 text-[11px]">
-                            <a id="bell-ics" href="reminders.ics" target="_blank" rel="noopener" class="text-[#B35F85] underline underline-offset-4">أو أضيفيها للتقويم</a>
-                            <button id="bell-push-off" type="button" class="hidden text-slate-400 underline underline-offset-4">إيقاف التذكيرات</button>
-                        </div>
+                        <p id="bell-push-on" class="hidden text-center text-xs font-bold text-[#B35F85] py-1">✅ التذكيرات مفعّلة <button id="bell-push-off" type="button" class="text-[11px] font-normal text-slate-400 underline underline-offset-4 mr-1">إيقاف</button></p>
                     </div>
                 </div>
 
@@ -1524,14 +1516,14 @@
             if (sel.value === 'other') { $('bell-other').classList.remove('hidden'); return; }
             $('bell-other').classList.add('hidden');
             const p = sel.value.split('|');
-            localStorage.setItem(CITY_KEY, JSON.stringify({ city: p[0], country: p[1] }));
+            localStorage.setItem(CITY_KEY, JSON.stringify({ city: p[0], country: p[1] })); try { window.dispatchEvent(new Event('glowup-city')); } catch (e) {}
             timings = null; $('bell-prayer-text').textContent = 'جاري تحميل مواقيت الصلاة…'; $('bell-countdown').textContent = '';
             loadTimings();
         });
         $('bell-other-save').addEventListener('click', () => {
             const city = $('bell-other-city').value.trim(), country = $('bell-other-country').value.trim();
             if (!city || !country) { if (typeof showToast === 'function') showToast('اكتبي المدينة والدولة بالإنجليزي 🌍'); return; }
-            localStorage.setItem(CITY_KEY, JSON.stringify({ city: city, country: country }));
+            localStorage.setItem(CITY_KEY, JSON.stringify({ city: city, country: country })); try { window.dispatchEvent(new Event('glowup-city')); } catch (e) {}
             timings = null; $('bell-prayer-text').textContent = 'جاري تحميل مواقيت الصلاة…'; $('bell-countdown').textContent = '';
             loadTimings();
         });
@@ -1780,34 +1772,25 @@ if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
   <div class="gp-box">
     <!-- آيفون: لازم التطبيق يكون مضاف للشاشة الرئيسية -->
     <div id="gp-ios" hidden>
-      <h3 id="gp-title" class="gp-title">لتفعيل التذكيرات على الآيفون 🌸</h3>
+      <h3 id="gp-title" class="gp-title">عشان توصلك التذكيرات على الآيفون 🌸</h3>
       <div class="gp-card">
-        <div class="gp-row"><span class="gp-chip">⬆️</span><span>اضغطي زر المشاركة</span></div>
-        <div class="gp-row"><span class="gp-chip">➕</span><span>اختاري «إضافة إلى الشاشة الرئيسية»</span></div>
-        <div class="gp-row"><span class="gp-chip">🌸</span><span>افتحي التطبيق من الأيقونة، وارجعي اكبسي الزر</span></div>
+        <div class="gp-row"><span class="gp-chip">⬆️</span><span>زر المشاركة ← «إضافة إلى الشاشة الرئيسية»</span></div>
+        <div class="gp-row"><span class="gp-chip">🌸</span><span>افتحي التطبيق من الأيقونة</span></div>
       </div>
-      <p class="gp-note">من Safari، وبدها iOS 16.4 أو أحدث</p>
     </div>
     <!-- الإشعارات مرفوضة: كيف ترجّعيها -->
     <div id="gp-denied" hidden>
-      <h3 class="gp-title">الإشعارات مسكّرة للتطبيق 🔕<br>هيك بترجعي تفتحيها:</h3>
+      <h3 class="gp-title">الإشعارات مسكّرة 🔕</h3>
       <div class="gp-card">
-        <p class="gp-os">iPhone</p>
-        <div class="gp-row"><span class="gp-chip">⚙️</span><span>الإعدادات ← الإشعارات ← Glow Up</span></div>
-        <div class="gp-row"><span class="gp-chip">✅</span><span>شغّلي «السماح بالإشعارات»</span></div>
-        <div class="gp-sep"></div>
-        <p class="gp-os">Android</p>
-        <div class="gp-row"><span class="gp-chip">👆</span><span>اضغطي مطوّل على أيقونة Glow Up ← معلومات التطبيق</span></div>
-        <div class="gp-row"><span class="gp-chip">✅</span><span>الإشعارات ← سماح</span></div>
+        <div class="gp-row"><span class="gp-chip">📱</span><span>آيفون: الإعدادات ← الإشعارات ← Glow Up ← السماح</span></div>
+        <div class="gp-row"><span class="gp-chip">🤖</span><span>أندرويد: معلومات التطبيق ← الإشعارات ← سماح</span></div>
       </div>
-      <p class="gp-note">وبعدين ارجعي اكبسي «فعّلي تذكيراتي» 🌸</p>
     </div>
     <!-- متصفح ما بيدعم الإشعارات -->
     <div id="gp-unsupported" hidden>
       <h3 class="gp-title">هالمتصفح ما بيدعم الإشعارات 🙈</h3>
       <div class="gp-card">
         <div class="gp-row"><span class="gp-chip">🧭</span><span>افتحي الرابط بـ Chrome (أندرويد) أو Safari (آيفون)</span></div>
-        <div class="gp-row"><span class="gp-chip">📅</span><span>أو استعملي «أضيفيها للتقويم» تحت الزر</span></div>
       </div>
     </div>
     <button id="gp-close" type="button" class="gp-btn">تمام 🌸</button>
@@ -1820,7 +1803,7 @@ const WORKER_URL = 'https://glowup-reminders.hedayaodat20.workers.dev';
 
 (function () {
     var $ = function (id) { return document.getElementById(id); };
-    var btn = $('bell-push-btn'), onBox = $('bell-push-on'), testBtn = $('bell-push-test'), offBtn = $('bell-push-off'), msg = $('bell-push-msg');
+    var btn = $('bell-push-btn'), onBox = $('bell-push-on'), offBtn = $('bell-push-off');
     var sheet = $('glow-push-sheet');
     if (!btn || !sheet) return;
     var API = WORKER_URL.replace(/\/+$/, '');
@@ -1831,13 +1814,16 @@ const WORKER_URL = 'https://glowup-reminders.hedayaodat20.workers.dev';
     var standalone = mq('(display-mode: standalone)') || mq('(display-mode: fullscreen)') || window.navigator.standalone === true;
     var supported = ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
     var configured = /^https:\/\/[^<>\s]+$/.test(API);
+    var isOn = false, working = false;
 
-    function say(text) { msg.textContent = text || ''; msg.classList.toggle('hidden', !text); }
-    function setOn(on) {
-        btn.classList.toggle('hidden', on); onBox.classList.toggle('hidden', !on); offBtn.classList.toggle('hidden', !on);
-        try { localStorage.setItem('glowup_push', on ? 'on' : 'off'); } catch (e) {}
+    function toast(t) { if (typeof showToast === 'function') showToast(t); }
+    function stopped() { try { return localStorage.getItem('glowup_push') === 'off'; } catch (e) { return false; } }
+    function setOn(on, remember) {
+        isOn = on;
+        btn.classList.toggle('hidden', on); onBox.classList.toggle('hidden', !on);
+        if (remember) { try { localStorage.setItem('glowup_push', on ? 'on' : 'off'); } catch (e) {} }
     }
-    function busy(b) { btn.disabled = b; btn.style.opacity = b ? '.7' : ''; btn.textContent = b ? 'لحظة… ⏳' : BTN_TEXT; }
+    function busy(b) { working = b; btn.disabled = b; btn.style.opacity = b ? '.7' : ''; btn.textContent = b ? 'لحظة… ⏳' : BTN_TEXT; }
     function showSheet(which) {
         ['gp-ios', 'gp-denied', 'gp-unsupported'].forEach(function (id) { $(id).hidden = (id !== 'gp-' + which); });
         sheet.hidden = false;
@@ -1858,6 +1844,12 @@ const WORKER_URL = 'https://glowup-reminders.hedayaodat20.workers.dev';
         return true;
     }
     function tz() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Amman'; } catch (e) { return 'Asia/Amman'; } }
+    // نفس مدينة مواقيت الصلاة اللي بالتطبيق (glowup_city)، والافتراضي عمّان
+    function place() {
+        try { var c = JSON.parse(localStorage.getItem('glowup_city')); if (c && c.city && c.country) return c; } catch (e) {}
+        return { city: 'Amman', country: 'Jordan' };
+    }
+    function payload(sub) { var p = place(); return { subscription: sub.toJSON(), tz: tz(), city: p.city, country: p.country }; }
     function post(path, data) {
         return fetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
             .then(function (r) { return r.json().catch(function () { return { ok: false, status: r.status }; }); });
@@ -1880,63 +1872,72 @@ const WORKER_URL = 'https://glowup-reminders.hedayaodat20.workers.dev';
         var sub = await r.pushManager.getSubscription();
         if (sub && sub.options && sub.options.applicationServerKey && !sameKey(sub.options.applicationServerKey, key)) { await sub.unsubscribe(); sub = null; }
         if (!sub) sub = await r.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
-        var out = await post('/subscribe', { subscription: sub.toJSON(), tz: tz() });
+        var out = await post('/subscribe', payload(sub));
         if (!out.ok) throw new Error('subscribe failed');
         return sub;
     }
 
-    btn.addEventListener('click', function () {
-        say('');
-        if (isIOS && !standalone) { showSheet('ios'); return; }
-        if (!supported) { showSheet(isIOS ? 'ios' : 'unsupported'); return; }
-        if (!configured) { say('التذكيرات لسا قيد التجهيز، جربي كمان شوي 🌸'); return; }
-        if (Notification.permission === 'denied') { showSheet('denied'); return; }
-        var perm = askPermission();          // لازم تنطلب مباشرة مع الكبسة (آيفون)
+    // التفعيل نفسه (لازم ينادى من جوّا كبسة، عشان الآيفون)
+    function activate(fromButton) {
+        if (isOn || working) return;
+        if (isIOS && !standalone) { if (fromButton) showSheet('ios'); return; }
+        if (!supported) { if (fromButton) showSheet('unsupported'); return; }
+        if (!configured) return;
+        if (Notification.permission === 'denied') { if (fromButton) showSheet('denied'); return; }
+        var perm = Notification.permission === 'granted' ? Promise.resolve('granted') : askPermission();   // مباشرة مع الكبسة
         busy(true);
         perm.then(function (p) {
-            if (p !== 'granted') { busy(false); if (p === 'denied') showSheet('denied'); else say('لازم تكبسي «السماح» عشان توصلك التذكيرات 🌸'); return; }
-            return subscribe().then(function () {
-                busy(false); setOn(true); say('رح توصلك تذكيراتك كل يوم بوقتها 💧🌸');
-            });
+            if (p !== 'granted') { busy(false); if (p === 'denied' && fromButton) showSheet('denied'); return; }
+            return subscribe().then(function () { busy(false); setOn(true, true); });
         }).catch(function (e) {
             console.warn('push subscribe', e);
-            busy(false); say('ما زبط التفعيل 🙈 تأكدي من النت وجربي كمان مرة');
+            busy(false); if (fromButton) toast('ما زبط التفعيل 🙈 جربي كمان مرة');
         });
-    });
+    }
 
-    testBtn.addEventListener('click', async function () {
-        testBtn.disabled = true; say('عم نبعتلك إشعار… ⏳');
-        try {
-            var r = await reg();
-            var sub = await r.pushManager.getSubscription();
-            if (!sub) sub = await subscribe();
-            var out = await post('/test', { endpoint: sub.endpoint });
-            if (!out.ok && (out.gone || out.error === 'not subscribed')) { sub = await subscribe(); out = await post('/test', { endpoint: sub.endpoint }); }
-            say(out.ok ? 'انبعت ✅ لازم يوصلك خلال ثواني 🌸' : 'ما وصل الإشعار 🙈 جربي كمان مرة بعد شوي');
-        } catch (e) { console.warn('push test', e); say('ما قدرنا نبعت هلأ 🙈 تأكدي من النت وجربي كمان مرة'); }
-        testBtn.disabled = false;
-    });
+    btn.addEventListener('click', function (e) { e.stopPropagation(); activate(true); });
 
-    offBtn.addEventListener('click', async function () {
+    // أول كبسة بأي مكان بالتطبيق → طلب السماح + التفعيل (مرة وحدة بكل فتحة)
+    function firstTap(e) {
+        document.removeEventListener('click', firstTap, true);
+        if (e && e.target && e.target.closest && e.target.closest('#bell-push, #glow-push-sheet')) return;
+        if (!isOn && !stopped()) activate(false);
+    }
+    function armFirstTap() {
+        if (!supported || !configured || stopped() || isOn) return;
+        if (isIOS && !standalone) return;
+        if (Notification.permission === 'denied') return;
+        document.addEventListener('click', firstTap, true);
+    }
+
+    offBtn.addEventListener('click', async function (e) {
+        e.stopPropagation();
         if (!confirm('بدك توقفي التذكيرات؟')) return;
         try {
             var r = await reg();
             var sub = await r.pushManager.getSubscription();
             if (sub) { post('/unsubscribe', { endpoint: sub.endpoint }).catch(function () {}); await sub.unsubscribe(); }
-        } catch (e) {}
-        setOn(false); say('وقفنا التذكيرات. بترجعي تفعليها بأي وقت 🌸');
+        } catch (err) {}
+        setOn(false, true);
     });
 
-    // عند الفتح: إذا كانت مفعّلة، نوري حالتها ونحدّث السيرفر بهدوء
-    if (supported && configured && Notification.permission === 'granted') {
+    // لما تغيّر مدينتها: نحدّث السيرفر عشان مواقيت الصلاة
+    window.addEventListener('glowup-city', function () {
+        if (!isOn) return;
+        reg().then(function (r) { return r.pushManager.getSubscription(); })
+            .then(function (sub) { if (sub) return post('/subscribe', payload(sub)); }).catch(function () {});
+    });
+
+    // عند الفتح: مفعّلة؟ نحدّث السيرفر بهدوء (مع المدينة). السماح موجود بس ما في اشتراك؟ نشترك بدون كبسة.
+    if (supported && configured && Notification.permission === 'granted' && !stopped()) {
         reg().then(function (r) { return r.pushManager.getSubscription(); }).then(function (sub) {
-            if (sub) { setOn(true); return post('/subscribe', { subscription: sub.toJSON(), tz: tz() }); }
-            var was = null; try { was = localStorage.getItem('glowup_push'); } catch (e) {}
-            if (was === 'on') return subscribe().then(function () { setOn(true); });   // الاشتراك انتهى؟ نجدده بهدوء
-        }).catch(function () {});
+            if (sub) { setOn(true, false); return post('/subscribe', payload(sub)); }
+            return subscribe().then(function () { setOn(true, true); });
+        }).catch(function (e) { console.warn('push auto', e); armFirstTap(); });
+    } else {
+        armFirstTap();
     }
 })();
 </script>
-<script>(function(){var a=document.getElementById('bell-ics');if(a&&/iPhone|iPad|iPod/i.test(navigator.userAgent)){a.href='webcal://'+location.host+location.pathname.replace(/[^\/]*$/,'')+'reminders.ics';a.removeAttribute('target');}})();</script>
 </body>
 </html>
